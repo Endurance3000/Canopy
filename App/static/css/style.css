@@ -458,3 +458,50 @@ body {
     border-radius: 20px;
     border: 1px solid rgba(40, 54, 24, 0.15);
 }
+
+/* FIXED MASONRY GRID FOR ULTRA-WIDE SCREENS */
+.masonry-grid {
+    column-count: 4;
+    column-gap: 1.5rem;
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+}
+
+/* Maintain aspect ratio while capping oversized images */
+.masonry-card-img {
+    width: 100%;
+    max-height: 480px; /* Caps ultra-tall portrait images */
+    object-fit: cover; /* Keeps image sharp without breaking card boundaries */
+    display: block;
+    cursor: pointer;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+/* RESPONSIVE COLUMN BREAKPOINTS */
+@media (min-width: 1600px) {
+    .masonry-grid {
+        column-count: 4; /* Keeps 4 balanced columns on 1080p+ wide monitors */
+    }
+}
+
+@media (max-width: 1200px) {
+    .masonry-grid {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .masonry-grid {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 576px) {
+    .masonry-grid {
+        column-count: 1;
+    }
+}
