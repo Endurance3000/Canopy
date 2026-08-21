@@ -1,190 +1,301 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %} {% block title %}Canopy | Discover &
+Share Nature Photography{% endblock %} 
 
-{% block title %}Canopy | Discover & Share Nature Photography{% endblock %}
+{% block extra_head %}
+<!-- Prevents favicon.ico 404 error -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-2 px-lg-5">
-    
-    <!-- HERO SECTION WITH SPOTLIGHT CAROUSEL -->
-    <section class="hero-section-wrapper">
-        <div class="hero-carousel-wrapper">
-            <button class="scroll-btn left" id="scrollLeft" aria-label="Scroll left">&#10094;</button>
-            
-            <div class="carousel-container" id="carouselContainer">
-                {% for photo in photos %}
-                    <div class="carousel-card" onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.camera_model|default:'N/A'|escapejs }}', '{{ photo.aperture|default:'N/A'|escapejs }}', '{{ photo.shutter_speed|default:'N/A'|escapejs }}', '{{ photo.iso|default:'N/A'|escapejs }}', '{{ photo.focal_length|default:'N/A'|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')">
-                        <span class="glass-tag">{% if photo.category %}{{ photo.category.name|upper }}{% else %}FEATURED{% endif %}</span>
-                        <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
-                        <div class="card-overlay">
-                            <h5 class="brand-font fs-3 mb-1 text-white">{{ photo.title }}</h5>
-                            <p class="small mb-0 text-white opacity-75">by {{ photo.user.username }}</p>
-                        </div>
-                    </div>
-                {% empty %}
-                    <div class="carousel-card">
-                        <span class="glass-tag">FORESTS</span>
-                        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80" alt="Forest">
-                        <div class="card-overlay">
-                            <h5 class="brand-font fs-3 mb-1 text-white">Misty Pine Canopy</h5>
-                            <p class="small mb-0 text-white opacity-75">by Sanish</p>
-                        </div>
-                    </div>
-                {% endfor %}
+  <!-- HERO SECTION WITH SPOTLIGHT CAROUSEL -->
+  <section class="hero-section-wrapper">
+    <div class="hero-carousel-wrapper">
+      <button class="scroll-btn left" id="scrollLeft" aria-label="Scroll left">
+        &#10094;
+      </button>
+
+      <div class="carousel-container" id="carouselContainer">
+        {% for photo in photos %}
+        <div
+          class="carousel-card"
+          onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.camera_model|default:'N/A'|escapejs }}', '{{ photo.aperture|default:'N/A'|escapejs }}', '{{ photo.shutter_speed|default:'N/A'|escapejs }}', '{{ photo.iso|default:'N/A'|escapejs }}', '{{ photo.focal_length|default:'N/A'|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')"
+        >
+          <span class="glass-tag"
+            >{% if photo.category %}{{ photo.category.name|upper }}{% else
+            %}FEATURED{% endif %}</span
+          >
+          <img src="{{ photo.image.url }}" alt="{{ photo.title }}" />
+          <div class="card-overlay">
+            <h5 class="brand-font fs-3 mb-1 text-white">{{ photo.title }}</h5>
+            <p class="small mb-0 text-white opacity-75">
+              by {{ photo.user.username }}
+            </p>
+          </div>
+        </div>
+        {% empty %}
+        <div class="carousel-card">
+          <span class="glass-tag">FORESTS</span>
+          <img
+            src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80"
+            alt="Forest"
+          />
+          <div class="card-overlay">
+            <h5 class="brand-font fs-3 mb-1 text-white">Misty Pine Canopy</h5>
+            <p class="small mb-0 text-white opacity-75">by Sanish</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button
+        class="scroll-btn right"
+        id="scrollRight"
+        aria-label="Scroll right"
+      >
+        &#10095;
+      </button>
+    </div>
+
+    <div class="scroll-progress-wrapper">
+      <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+  </section>
+
+  <!-- SEARCH & QUICK TAGS SECTION -->
+  <section class="my-4">
+    <div class="search-container">
+      <form
+        action="#"
+        method="GET"
+        class="search-input-group d-flex align-items-center"
+      >
+        <input
+          type="text"
+          name="q"
+          class="form-control"
+          placeholder="Search by location, camera model, or photo title..."
+        />
+        <button
+          type="submit"
+          class="btn btn-canopy rounded-pill px-4 ms-2 brand-font text-uppercase"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+
+    <div class="d-flex justify-content-center gap-2 flex-wrap mt-3">
+      <a href="#" class="filter-pill active">All Shots</a>
+      <a href="#" class="filter-pill">Forests</a>
+      <a href="#" class="filter-pill">Mountains</a>
+      <a href="#" class="filter-pill">Wildlife</a>
+      <a href="#" class="filter-pill">Macro & Flowers</a>
+      <a href="#" class="filter-pill">Ocean</a>
+    </div>
+  </section>
+
+  <!-- EDITORIAL COLLECTION BANNER -->
+  <section class="my-5">
+    <div class="curated-banner p-4 p-md-5">
+      <img
+        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+        alt="Curated Stream"
+        class="curated-banner-img d-none d-md-block"
+      />
+      <div class="col-md-7 position-relative z-1">
+        <span class="badge bg-warning text-dark mb-2 fw-bold text-uppercase"
+          >Weekly Curation</span
+        >
+        <h2 class="brand-font display-5 fw-bold mb-2">
+          Reflections & Still Waters
+        </h2>
+        <p class="opacity-75 mb-4 fs-5">
+          A minimalist collection capturing pristine mirror lakes, misty alpine
+          rivers, and untouched shorelines across the globe.
+        </p>
+        <a
+          href="#"
+          class="btn btn-canopy rounded-pill px-4 py-2 brand-font fs-5"
+          >Explore Collection (24 Shots)</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- MASONRY GRID WITH DYNAMIC ASPECT RATIOS -->
+  <section class="py-2">
+    <h3 class="brand-font fs-2 brand-color mb-4">RECENT DISCOVERIES</h3>
+    <div class="masonry-grid">
+      {% for photo in photos %}
+      <div class="masonry-item">
+        <div
+          class="card border-0 rounded-4 overflow-hidden shadow-sm"
+          style="background-color: rgba(254, 250, 224, 0.9)"
+        >
+          <img
+            src="{{ photo.image.url }}"
+            class="masonry-card-img"
+            alt="{{ photo.title }}"
+            onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.camera_model|default:'N/A'|escapejs }}', '{{ photo.aperture|default:'N/A'|escapejs }}', '{{ photo.shutter_speed|default:'N/A'|escapejs }}', '{{ photo.iso|default:'N/A'|escapejs }}', '{{ photo.focal_length|default:'N/A'|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')"
+          />
+          <div class="card-body d-flex flex-column justify-content-between p-3">
+            <div>
+              <h5 class="brand-font fs-4 brand-color mb-1">
+                {{ photo.title }}
+              </h5>
+              <p class="text-secondary small mb-2">
+                By {{ photo.user.username }}
+              </p>
+
+              <div
+                class="d-flex justify-content-between align-items-center small text-secondary mb-2 opacity-75"
+              >
+                <span class="d-flex align-items-center gap-1">
+                  <i class="bi bi-eye"></i> {{ photo.views }}
+                </span>
+                <span class="d-flex align-items-center gap-1">
+                  <i class="bi bi-heart-fill brand-color"></i>
+                  <span id="card-like-count-{{ photo.id }}"
+                    >{{ photo.likes.count }}</span
+                  >
+                </span>
+              </div>
             </div>
 
-            <button class="scroll-btn right" id="scrollRight" aria-label="Scroll right">&#10095;</button>
-        </div>
-
-        <div class="scroll-progress-wrapper">
-            <div class="scroll-progress-bar" id="scrollProgressBar"></div>
-        </div>
-    </section>
-
-    <!-- SEARCH & QUICK TAGS SECTION -->
-    <section class="my-4">
-        <div class="search-container">
-            <form action="#" method="GET" class="search-input-group d-flex align-items-center">
-                <input type="text" name="q" class="form-control" placeholder="Search by location, camera model, or photo title...">
-                <button type="submit" class="btn btn-canopy rounded-pill px-4 ms-2 brand-font text-uppercase">Search</button>
-            </form>
-        </div>
-
-        <div class="d-flex justify-content-center gap-2 flex-wrap mt-3">
-            <a href="#" class="filter-pill active">All Shots</a>
-            <a href="#" class="filter-pill">Forests</a>
-            <a href="#" class="filter-pill">Mountains</a>
-            <a href="#" class="filter-pill">Wildlife</a>
-            <a href="#" class="filter-pill">Macro & Flowers</a>
-            <a href="#" class="filter-pill">Ocean</a>
-        </div>
-    </section>
-
-    <!-- EDITORIAL COLLECTION BANNER -->
-    <section class="my-5">
-        <div class="curated-banner p-4 p-md-5">
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Curated Stream" class="curated-banner-img d-none d-md-block">
-            <div class="col-md-7 position-relative z-1">
-                <span class="badge bg-warning text-dark mb-2 fw-bold text-uppercase">Weekly Curation</span>
-                <h2 class="brand-font display-5 fw-bold mb-2">Reflections & Still Waters</h2>
-                <p class="opacity-75 mb-4 fs-5">A minimalist collection capturing pristine mirror lakes, misty alpine rivers, and untouched shorelines across the globe.</p>
-                <a href="#" class="btn btn-canopy rounded-pill px-4 py-2 brand-font fs-5">Explore Collection (24 Shots)</a>
+            <div
+              class="pt-2 border-top border-secondary border-opacity-10 d-flex justify-content-between align-items-center"
+            >
+              <span class="exif-badge">
+                {% if photo.aperture %}{{ photo.aperture }}{% else %}EXIF
+                Available{% endif %}
+              </span>
+              <div class="d-flex gap-2">
+                <button
+                  class="btn btn-canopy-outline btn-sm rounded-circle d-flex align-items-center justify-content-center card-like-btn"
+                  style="width: 32px; height: 32px"
+                  data-url="{% url 'like_photo' photo.id %}"
+                  data-photo-id="{{ photo.id }}"
+                  title="Like"
+                >
+                  <i
+                    class="bi {% if user in photo.likes.all %}bi-heart-fill brand-color{% else %}bi-heart{% endif %} card-like-icon-{{ photo.id }}"
+                  ></i>
+                </button>
+                <a
+                  href="{% url 'photo_detail' photo.id %}"
+                  class="btn btn-canopy-outline btn-sm rounded-pill px-3"
+                  >View</a
+                >
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-
-    <!-- MASONRY GRID WITH DYNAMIC ASPECT RATIOS -->
-    <section class="py-2">
-        <h3 class="brand-font fs-2 brand-color mb-4">RECENT DISCOVERIES</h3>
-        <div class="masonry-grid">
-            {% for photo in photos %}
-                <div class="masonry-item">
-                    <div class="card border-0 rounded-4 overflow-hidden shadow-sm" style="background-color: rgba(254, 250, 224, 0.9);">
-                        <img src="{{ photo.image.url }}" class="masonry-card-img" alt="{{ photo.title }}" onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.camera_model|default:'N/A'|escapejs }}', '{{ photo.aperture|default:'N/A'|escapejs }}', '{{ photo.shutter_speed|default:'N/A'|escapejs }}', '{{ photo.iso|default:'N/A'|escapejs }}', '{{ photo.focal_length|default:'N/A'|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')">
-                        <div class="card-body d-flex flex-column justify-content-between p-3">
-                            <div>
-                                <h5 class="brand-font fs-4 brand-color mb-1">{{ photo.title }}</h5>
-                                <p class="text-secondary small mb-2">By {{ photo.user.username }}</p>
-                                
-                                <div class="d-flex justify-content-between align-items-center small text-secondary mb-2 opacity-75">
-                                    <span class="d-flex align-items-center gap-1">
-                                        <i class="bi bi-eye"></i> {{ photo.views }}
-                                    </span>
-                                    <span class="d-flex align-items-center gap-1">
-                                        <i class="bi bi-heart-fill brand-color"></i> <span id="card-like-count-{{ photo.id }}">{{ photo.likes.count }}</span>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="pt-2 border-top border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
-                                <span class="exif-badge">
-                                    {% if photo.aperture %}{{ photo.aperture }}{% else %}EXIF Available{% endif %}
-                                </span>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-canopy-outline btn-sm rounded-circle d-flex align-items-center justify-content-center card-like-btn" style="width: 32px; height: 32px;" data-url="{% url 'like_photo' photo.id %}" data-photo-id="{{ photo.id }}" title="Like">
-                                        <i class="bi {% if user in photo.likes.all %}bi-heart-fill brand-color{% else %}bi-heart{% endif %} card-like-icon-{{ photo.id }}"></i>
-                                    </button>
-                                    <a href="{% url 'photo_detail' photo.id %}" class="btn btn-canopy-outline btn-sm rounded-pill px-3">View</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </section>
-
+      </div>
+      {% endfor %}
+    </div>
+  </section>
 </div>
 
 <!-- LIGHTBOX MODAL WITH METRICS -->
 <div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content modal-content-canopy overflow-hidden">
-            <div class="modal-body p-0">
-                <div class="row g-0">
-                    <div class="col-lg-8 bg-dark d-flex align-items-center justify-content-center">
-                        <img id="lightboxImg" src="" class="img-fluid w-100" style="max-height: 80vh; object-fit: contain;" alt="Modal View">
-                    </div>
-                    <div class="col-lg-4 p-4 d-flex flex-column justify-content-between">
-                        <div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge bg-success bg-opacity-25 text-success">Verified Original</span>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <h3 id="lightboxTitle" class="brand-font fs-2 brand-color mb-1"></h3>
-                            <p id="lightboxAuthor" class="text-secondary small mb-1"></p>
-                            <p id="lightboxLocation" class="text-muted small mb-2"></p>
-                            
-                            <div class="d-flex gap-4 text-muted small my-2 pb-2 border-bottom">
-                                <span class="d-flex align-items-center gap-1"><i class="bi bi-eye"></i> <strong id="lightboxViews">0</strong> views</span>
-                                <span class="d-flex align-items-center gap-1"><i class="bi bi-heart-fill brand-color"></i> <strong id="lightboxLikes">0</strong> likes</span>
-                            </div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-content-canopy overflow-hidden">
+      <div class="modal-body p-0">
+        <div class="lightbox-wrapper">
+          <div class="lightbox-img-side">
+            <img id="lightboxImg" src="" alt="Modal View">
+          </div>
+          <div class="lightbox-info-side">
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-success bg-opacity-25 text-success">Verified Original</span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <h3 id="lightboxTitle" class="brand-font fs-2 brand-color mb-1"></h3>
+              <p id="lightboxAuthor" class="text-secondary small mb-1"></p>
+              <p id="lightboxLocation" class="text-muted small mb-2"></p>
 
-                            <p id="lightboxDescription" class="small text-dark mb-3"></p>
-                            
-                            <h6 class="brand-font fs-5 brand-color mb-2">Camera Specs (EXIF)</h6>
-                            <div class="bg-light p-3 rounded-3 mb-4 small">
-                                <div class="d-flex justify-content-between py-1 border-bottom">
-                                    <span class="text-muted">Camera</span>
-                                    <span id="lightboxCamera" class="fw-bold">N/A</span>
-                                </div>
-                                <div class="d-flex justify-content-between py-1 border-bottom">
-                                    <span class="text-muted">Aperture</span>
-                                    <span id="lightboxAperture" class="fw-bold">N/A</span>
-                                </div>
-                                <div class="d-flex justify-content-between py-1 border-bottom">
-                                    <span class="text-muted">Shutter Speed</span>
-                                    <span id="lightboxShutter" class="fw-bold">N/A</span>
-                                </div>
-                                <div class="d-flex justify-content-between py-1 border-bottom">
-                                    <span class="text-muted">ISO</span>
-                                    <span id="lightboxISO" class="fw-bold">N/A</span>
-                                </div>
-                                <div class="d-flex justify-content-between py-1">
-                                    <span class="text-muted">Focal Length</span>
-                                    <span id="lightboxFocal" class="fw-bold">N/A</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button id="lightboxLikeBtn" class="btn btn-canopy-outline rounded-pill px-3 py-2 brand-font d-flex align-items-center gap-2">
-                                <i id="lightboxLikeIcon" class="bi bi-heart"></i> <span id="lightboxLikeText">Like</span>
-                            </button>
-                            <a id="lightboxDownloadBtn" href="#" download class="btn btn-canopy w-100 rounded-pill py-2 brand-font fs-5">Download</a>
-                        </div>
-                    </div>
+              <div class="d-flex gap-4 text-muted small my-2 pb-2 border-bottom">
+                <span class="d-flex align-items-center gap-1">
+                  <i class="bi bi-eye"></i>
+                  <strong id="lightboxViews">0</strong> views
+                </span>
+                <span class="d-flex align-items-center gap-1">
+                  <i class="bi bi-heart-fill brand-color"></i>
+                  <strong id="lightboxLikes">0</strong> likes
+                </span>
+              </div>
+
+              <p id="lightboxDescription" class="small text-dark mb-3"></p>
+
+              <h6 class="brand-font fs-5 brand-color mb-2">Camera Specs (EXIF)</h6>
+              <div class="bg-light p-3 rounded-3 mb-4 small">
+                <div class="d-flex justify-content-between py-1 border-bottom">
+                  <span class="text-muted">Camera</span>
+                  <span id="lightboxCamera" class="fw-bold">N/A</span>
                 </div>
+                <div class="d-flex justify-content-between py-1 border-bottom">
+                  <span class="text-muted">Aperture</span>
+                  <span id="lightboxAperture" class="fw-bold">N/A</span>
+                </div>
+                <div class="d-flex justify-content-between py-1 border-bottom">
+                  <span class="text-muted">Shutter Speed</span>
+                  <span id="lightboxShutter" class="fw-bold">N/A</span>
+                </div>
+                <div class="d-flex justify-content-between py-1 border-bottom">
+                  <span class="text-muted">ISO</span>
+                  <span id="lightboxISO" class="fw-bold">N/A</span>
+                </div>
+                <div class="d-flex justify-content-between py-1">
+                  <span class="text-muted">Focal Length</span>
+                  <span id="lightboxFocal" class="fw-bold">N/A</span>
+                </div>
+              </div>
             </div>
+            <div class="d-flex gap-2">
+              <button
+                id="lightboxLikeBtn"
+                class="btn btn-canopy-outline rounded-pill px-3 py-2 brand-font d-flex align-items-center gap-2"
+              >
+                <i id="lightboxLikeIcon" class="bi bi-heart"></i>
+                <span id="lightboxLikeText">Like</span>
+              </button>
+              <a
+                id="lightboxDownloadBtn"
+                href="#"
+                download
+                class="btn btn-canopy w-100 rounded-pill py-2 brand-font fs-5"
+              >Download</a>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-let currentLightboxPhotoId = null;
+  let currentLightboxPhotoId = null;
 
 function openLightbox(id, url, title, author, location, camera, aperture, shutter, iso, focal, description, views, likes) {
     currentLightboxPhotoId = id;
-    document.getElementById('lightboxImg').src = url;
+    
+    const imgElem = document.getElementById('lightboxImg');
+    const infoPanel = document.querySelector('.lightbox-info-side');
+
+    // Clear previous explicit height settings
+    if (infoPanel) infoPanel.style.height = 'auto';
+
+    imgElem.onload = function() {
+        // Sync side panel height to rendered image height desktop mode
+        if (window.innerWidth > 992 && infoPanel && imgElem.clientHeight > 0) {
+            infoPanel.style.height = imgElem.clientHeight + 'px';
+        }
+    };
+
+    imgElem.src = url;
+
     document.getElementById('lightboxTitle').innerText = title;
     document.getElementById('lightboxAuthor').innerText = 'Shot by ' + author;
     document.getElementById('lightboxLocation').innerText = location ? '📍 ' + location : '';
@@ -205,88 +316,114 @@ function openLightbox(id, url, title, author, location, camera, aperture, shutte
     lightbox.show();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Card like buttons
-    document.querySelectorAll('.card-like-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const url = this.getAttribute('data-url');
-            const photoId = this.getAttribute('data-photo-id');
-            const icon = document.querySelector(`.card-like-icon-${photoId}`);
-            const countElem = document.getElementById(`card-like-count-${photoId}`);
-            
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (countElem) countElem.innerText = data.likes_count;
-                if (data.liked) {
-                    icon.classList.remove('bi-heart');
-                    icon.classList.add('bi-heart-fill', 'brand-color');
-                } else {
-                    icon.classList.remove('bi-heart-fill', 'brand-color');
-                    icon.classList.add('bi-heart');
-                }
-            })
-            .catch(error => console.error('Error toggling like:', error));
+  document.addEventListener("DOMContentLoaded", function () {
+    // Scroll Controls for Hero Carousel
+    const container = document.getElementById("carouselContainer");
+    const scrollLeft = document.getElementById("scrollLeft");
+    const scrollRight = document.getElementById("scrollRight");
+    const progressBar = document.getElementById("scrollProgressBar");
+
+    if (container) {
+      if (scrollLeft) {
+        scrollLeft.addEventListener("click", () => {
+          container.scrollBy({ left: -320, behavior: "smooth" });
         });
+      }
+      if (scrollRight) {
+        scrollRight.addEventListener("click", () => {
+          container.scrollBy({ left: 320, behavior: "smooth" });
+        });
+      }
+      if (progressBar) {
+        container.addEventListener("scroll", () => {
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          const percentage = maxScroll > 0 ? (container.scrollLeft / maxScroll) * 100 : 0;
+          progressBar.style.transform = `translateX(${percentage}%)`;
+        });
+      }
+    }
+
+    // Card like buttons
+    document.querySelectorAll(".card-like-btn").forEach((button) => {
+      button.addEventListener("click", function (e) {
+        e.preventDefault();
+        const url = this.getAttribute("data-url");
+        const photoId = this.getAttribute("data-photo-id");
+        const icon = document.querySelector(`.card-like-icon-${photoId}`);
+        const countElem = document.getElementById(`card-like-count-${photoId}`);
+
+        fetch(url, {
+          method: "GET",
+          headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            Accept: "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (countElem) countElem.innerText = data.likes_count;
+            if (data.liked) {
+              icon.classList.remove("bi-heart");
+              icon.classList.add("bi-heart-fill", "brand-color");
+            } else {
+              icon.classList.remove("bi-heart-fill", "brand-color");
+              icon.classList.add("bi-heart");
+            }
+          })
+          .catch((error) => console.error("Error toggling like:", error));
+      });
     });
 
     // Lightbox like button
-    const lbLikeBtn = document.getElementById('lightboxLikeBtn');
+    const lbLikeBtn = document.getElementById("lightboxLikeBtn");
     if (lbLikeBtn) {
-        lbLikeBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (!currentLightboxPhotoId) return;
-            const url = '/photo/' + currentLightboxPhotoId + '/like/';
-            
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('lightboxLikes').innerText = data.likes_count;
-                const cardCount = document.getElementById(`card-like-count-${currentLightboxPhotoId}`);
-                const cardIcon = document.querySelector(`.card-like-icon-${currentLightboxPhotoId}`);
-                if (cardCount) cardCount.innerText = data.likes_count;
-                
-                const lbIcon = document.getElementById('lightboxLikeIcon');
-                const lbText = document.getElementById('lightboxLikeText');
-                
-                if (data.liked) {
-                    lbLikeBtn.classList.remove('btn-canopy-outline');
-                    lbLikeBtn.classList.add('btn-canopy');
-                    lbIcon.classList.remove('bi-heart');
-                    lbIcon.classList.add('bi-heart-fill');
-                    lbText.innerText = 'Liked';
-                    if (cardIcon) {
-                        cardIcon.classList.remove('bi-heart');
-                        cardIcon.classList.add('bi-heart-fill', 'brand-color');
-                    }
-                } else {
-                    lbLikeBtn.classList.remove('btn-canopy');
-                    lbLikeBtn.classList.add('btn-canopy-outline');
-                    lbIcon.classList.remove('bi-heart-fill');
-                    lbIcon.classList.add('bi-heart');
-                    lbText.innerText = 'Like';
-                    if (cardIcon) {
-                        cardIcon.classList.remove('bi-heart-fill', 'brand-color');
-                        cardIcon.classList.add('bi-heart');
-                    }
-                }
-            })
-            .catch(error => console.error('Error toggling like:', error));
-        });
+      lbLikeBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (!currentLightboxPhotoId) return;
+        const url = "/photo/" + currentLightboxPhotoId + "/like/";
+
+        fetch(url, {
+          method: "GET",
+          headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            Accept: "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("lightboxLikes").innerText = data.likes_count;
+            const cardCount = document.getElementById(`card-like-count-${currentLightboxPhotoId}`);
+            const cardIcon = document.querySelector(`.card-like-icon-${currentLightboxPhotoId}`);
+            if (cardCount) cardCount.innerText = data.likes_count;
+
+            const lbIcon = document.getElementById("lightboxLikeIcon");
+            const lbText = document.getElementById("lightboxLikeText");
+
+            if (data.liked) {
+              lbLikeBtn.classList.remove("btn-canopy-outline");
+              lbLikeBtn.classList.add("btn-canopy");
+              lbIcon.classList.remove("bi-heart");
+              lbIcon.classList.add("bi-heart-fill");
+              lbText.innerText = "Liked";
+              if (cardIcon) {
+                cardIcon.classList.remove("bi-heart");
+                cardIcon.classList.add("bi-heart-fill", "brand-color");
+              }
+            } else {
+              lbLikeBtn.classList.remove("btn-canopy");
+              lbLikeBtn.classList.add("btn-canopy-outline");
+              lbIcon.classList.remove("bi-heart-fill");
+              lbIcon.classList.add("bi-heart");
+              lbText.innerText = "Like";
+              if (cardIcon) {
+                cardIcon.classList.remove("bi-heart-fill", "brand-color");
+                cardIcon.classList.add("bi-heart");
+              }
+            }
+          })
+          .catch((error) => console.error("Error toggling like:", error));
+      });
     }
-});
+  });
 </script>
 {% endblock %}

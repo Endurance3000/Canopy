@@ -505,3 +505,90 @@ body {
         column-count: 1;
     }
 }
+
+/* STRICT ADAPTIVE LIGHTBOX */
+#lightboxModal .modal-dialog {
+    max-width: 90vw !important;
+    width: fit-content !important;
+    margin: 1.75rem auto;
+}
+
+#lightboxModal .modal-content {
+    width: fit-content !important;
+    border-radius: 20px;
+    border: none;
+    overflow: hidden;
+    background-color: var(--canopy-cornsilk, #fcfbf7);
+}
+
+.lightbox-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    max-height: 80vh;
+    width: fit-content !important;
+    background-color: var(--canopy-cornsilk, #fcfbf7);
+}
+
+.lightbox-img-side {
+    background-color: transparent !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto !important;
+    max-height: 80vh;
+    line-height: 0;
+    overflow: hidden;
+}
+
+#lightboxImg {
+    display: block !important;
+    max-height: 80vh !important;
+    max-width: calc(90vw - 360px) !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+
+.lightbox-info-side {
+    width: 360px !important;
+    flex: 0 0 360px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    padding: 1.25rem !important;
+    background-color: var(--canopy-cornsilk, #fcfbf7);
+    overflow-y: auto;
+}
+
+/* RESPONSIVE FALLBACK */
+@media (max-width: 992px) {
+    #lightboxModal .modal-dialog {
+        max-width: 95vw !important;
+        width: 100% !important;
+    }
+    
+    #lightboxModal .modal-content,
+    .lightbox-wrapper {
+        width: 100% !important;
+        flex-direction: column !important;
+        max-height: none;
+    }
+    
+    .lightbox-img-side {
+        width: 100% !important;
+        height: auto;
+    }
+    
+    #lightboxImg {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 55vh !important;
+    }
+    
+    .lightbox-info-side {
+        width: 100% !important;
+        flex: 1 1 auto !important;
+    }
+}
