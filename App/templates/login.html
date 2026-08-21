@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Log In | Canopy{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4" style="background-color: rgba(254, 250, 224, 0.8);">
+                <h3 class="brand-font fs-2 mb-2 brand-color text-center">WELCOME BACK</h3>
+                <p class="text-secondary text-center mb-4">Sign in to your Canopy account</p>
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 rounded-3 small">
+                        {% for error in form.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label text-secondary fw-semibold small">{{ field.label }}</label>
+                            {{ field }}
+                            {% for error in field.errors %}
+                                <div class="text-danger small mt-1 ms-2">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-canopy w-100 rounded-pill py-2 mt-3 brand-font fs-5">LOG IN</button>
+                </form>
+
+                <p class="text-center text-secondary small mt-4 mb-0">
+                    Don't have an account? <a href="{% url 'signup' %}" class="brand-color fw-bold text-decoration-none">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

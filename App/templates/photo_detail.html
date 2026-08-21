@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ photo.title }} | Canopy{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div
+        class="card border-0 rounded-4 overflow-hidden shadow-sm"
+        style="background-color: rgba(254, 250, 224, 0.9)"
+      >
+        <img
+          src="{{ photo.image.url }}"
+          class="card-img-top w-100"
+          alt="{{ photo.title }}"
+          style="max-height: 70vh; object-fit: contain; background: #000"
+        />
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h2 class="brand-font fs-2 brand-color mb-1">
+                {{ photo.title }}
+              </h2>
+              <p class="text-secondary small mb-0">
+                Shot by {{ photo.user.username }} on {{ photo.uploaded_at|date:"F j, Y" }} {% if photo.location %} · 📍 {{ photo.location }}{% endif %}
+              </p>
+            </div>
+            <a
+              href="{% url 'home' %}"
+              class="btn btn-canopy-outline rounded-pill px-4"
+              >Back to Home</a
+            >
+          </div>
+
+          <!-- METRICS AND LIKE BUTTON -->
+          <div
+            class="d-flex align-items-center justify-content-between my-3 p-3 bg-light rounded-3"
+          >
+            <div class="d-flex gap-4 text-muted small">
+              <span class="d-flex align-items-center gap-1">
+                <i class="bi bi-eye"></i>
+                <strong>{{ photo.views }}</strong> Views
+              </span>
+              <span class="d-flex align-items-center gap-1">
+                <i class="bi bi-heart-fill brand-color"></i>
+                <strong id="detail-like-count">{{ photo.likes.count }}</strong> Likes
+              </span>
+            </div>
+            {% if user.is_authenticated %}
+            <button
+              id="like-btn"
+              data-url="{% url 'like_photo' photo.id %}"
+              class="btn {% if is_liked %}btn-canopy{% else %}btn-canopy-outline{% endif %} rounded-pill px-4 btn-sm d-flex align-items-center gap-2"
+            >
+              <i id="like-icon" class="bi {% if is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+              <span id="like-text">{% if is_liked %}Liked{% else %}Like{% endif %}</span>
+            </button>
+            {% else %}
+            <a
+              href="{% url 'login' %}"
+              class="btn btn-canopy-outline rounded-pill px-3 btn-sm"
+              >Log in to Like</a
+            >
+            {% endif %}
+          </div>
+
+          {% if photo.description %}
+          <p class="text-dark my-3">{{ photo.description }}</p>
+          {% endif %}
+
+          <!-- EXIF SPECIFICATIONS -->
+          <div class="border-top border-secondary border-opacity-10 pt-3 mt-3">
+            <h6 class="brand-font fs-5 brand-color mb-2">
+              Camera Specs (EXIF)
+            </h6>
+            <div class="bg-light p-3 rounded-3 small">
+              <div class="d-flex justify-content-between py-1 border-bottom">
+                <span class="text-muted">Camera</span>
+                <span class="fw-bold"
+                  >{{ photo.camera_model|default:"N/A" }}</span
+                >
+              </div>
+              <div class="d-flex justify-content-between py-1 border-bottom">
+                <span class="text-muted">Aperture</span>
+                <span class="fw-bold">{{ photo.aperture|default:"N/A" }}</span>
+              </div>
+              <div class="d-flex justify-content-between py-1 border-bottom">
+                <span class="text-muted">Shutter Speed</span>
+                <span class="fw-bold"
+                  >{{ photo.shutter_speed|default:"N/A" }}</span
+                >
+              </div>
+              <div class="d-flex justify-content-between py-1 border-bottom">
+                <span class="text-muted">ISO</span>
+                <span class="fw-bold">{{ photo.iso|default:"N/A" }}</span>
+              </div>
+              <div class="d-flex justify-content-between py-1">
+                <span class="text-muted">Focal Length</span>
+                <span class="fw-bold"
+                  >{{ photo.focal_length|default:"N/A" }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const likeBtn = document.getElementById('like-btn');
+    if (likeBtn) {
+        likeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.getAttribute('data-url');
+            
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('detail-like-count').innerText = data.likes_count;
+                const icon = document.getElementById('like-icon');
+                const text = document.getElementById('like-text');
+                
+                if (data.liked) {
+                    likeBtn.classList.remove('btn-canopy-outline');
+                    likeBtn.classList.add('btn-canopy');
+                    icon.classList.remove('bi-heart');
+                    icon.classList.add('bi-heart-fill');
+                    text.innerText = 'Liked';
+                } else {
+                    likeBtn.classList.remove('btn-canopy');
+                    likeBtn.classList.add('btn-canopy-outline');
+                    icon.classList.remove('bi-heart-fill');
+                    icon.classList.add('bi-heart');
+                    text.innerText = 'Like';
+                }
+            })
+            .catch(error => console.error('Error toggling like:', error));
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Canopy | Discover & Share Nature Photography{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-section d-flex align-items-center text-white py-5">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold mb-3">
+                    Capture. Share. Discover Nature.
+                </h1>
+                
+                <p class="lead mb-4 text-light opacity-90 fs-5">
+                    A dedicated community space for nature photographers to share, explore, and connect.
+                </p>
+
+                <div class="d-flex align-items-center justify-content-center flex-wrap gap-2 pt-2">
+                    <span class="small opacity-75 me-2">Popular:</span>
+                    <a href="#" class="badge tag-badge rounded-pill px-3 py-2 text-decoration-none">Forests</a>
+                    <a href="#" class="badge tag-badge rounded-pill px-3 py-2 text-decoration-none">Mountains</a>
+                    <a href="#" class="badge tag-badge rounded-pill px-3 py-2 text-decoration-none">Wildlife</a>
+                    <a href="#" class="badge tag-badge rounded-pill px-3 py-2 text-decoration-none">Macro & Flowers</a>
+                    <a href="#" class="badge tag-badge rounded-pill px-3 py-2 text-decoration-none">Ocean</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALLERY SECTION -->
+<section class="py-5">
+    <div class="container py-3">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold fs-3 mb-2 brand-color">Explore Stunning Nature Photography</h2>
+            <p class="text-secondary">Browse through a curated collection of breathtaking nature photos shared by our community members.</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-11">
+                <div class="row g-4">
+                    {% for photo in photos %}
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                                <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}" style="height: 240px; object-fit: cover;">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-semibold brand-color">{{ photo.title }}</h5>
+                                    <p class="card-text text-secondary small mb-1">By {{ photo.user.username }}</p>
+                                    <p class="card-text text-secondary small flex-grow-1">{{ photo.description|truncatewords:15 }}</p>
+                                    <a href="{% url 'photo_detail' photo.id %}" class="btn btn-canopy-outline btn-sm mt-2 w-100">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col-12 text-center">
+                            <p class="text-secondary">No photos available at the moment. Please check back later!</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,161 @@
+/* Color Palette Variables */
+:root {
+    --canopy-dark-moss: #283618;
+    --canopy-moss: #606c38;
+    --canopy-cornsilk: #fefae0;
+    --canopy-earth-gold: #dda15e;
+    --canopy-terracotta: #bc6c25;
+}
+
+/* Global Canvas & Typography */
+body {
+    background-color: var(--canopy-cornsilk) !important;
+    color: var(--canopy-dark-moss);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.brand-color {
+    color: var(--canopy-dark-moss);
+}
+
+/* Navigation Bar */
+.canopy-nav {
+    background-color: rgba(254, 250, 224, 0.92) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(40, 54, 24, 0.1);
+}
+
+.nav-link-custom {
+    color: var(--canopy-moss) !important;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link-custom:hover {
+    color: var(--canopy-dark-moss) !important;
+}
+
+/* Search Controls */
+.search-input {
+    background-color: rgba(40, 54, 24, 0.05) !important;
+    border: 1px solid rgba(40, 54, 24, 0.12) !important;
+    color: var(--canopy-dark-moss) !important;
+}
+
+.search-input::placeholder {
+    color: rgba(40, 54, 24, 0.5);
+}
+
+.search-input:focus {
+    background-color: #ffffff !important;
+    border-color: var(--canopy-earth-gold) !important;
+    box-shadow: 0 0 0 0.25rem rgba(221, 161, 94, 0.25) !important;
+}
+
+/* Base Buttons */
+.btn-canopy {
+    background-color: var(--canopy-dark-moss);
+    color: var(--canopy-cornsilk);
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-canopy:hover {
+    background-color: var(--canopy-moss);
+    color: var(--canopy-cornsilk);
+    transform: translateY(-1px);
+}
+
+.btn-canopy-accent {
+    background-color: var(--canopy-terracotta);
+    color: var(--canopy-cornsilk);
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-canopy-accent:hover {
+    background-color: #a05a1e;
+    color: var(--canopy-cornsilk);
+    transform: translateY(-1px);
+}
+
+.btn-canopy-outline {
+    border: 1px solid rgba(40, 54, 24, 0.3);
+    color: var(--canopy-dark-moss);
+    background-color: transparent;
+    transition: all 0.2s ease;
+}
+
+.btn-canopy-outline:hover {
+    border-color: var(--canopy-terracotta);
+    color: var(--canopy-terracotta);
+    background-color: rgba(188, 108, 37, 0.05);
+}
+
+/* Form Styling (Auth & Django Forms) */
+.form-control:focus {
+    border-color: var(--canopy-moss);
+    box-shadow: 0 0 0 0.25rem rgba(96, 108, 56, 0.2);
+}
+
+.card input[type="text"],
+.card input[type="password"],
+.card input[type="email"] {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 50rem;
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    outline: none;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card input[type="text"]:focus,
+.card input[type="password"]:focus,
+.card input[type="email"]:focus {
+    border-color: var(--canopy-dark-moss);
+    background-color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(40, 54, 24, 0.15);
+}
+
+.card .helptext {
+    display: block;
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+    margin-left: 0.5rem;
+}
+
+/* Landing / Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+                url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-size: cover;
+    background-position: center;
+    min-height: 480px;
+}
+
+.hero-search-input {
+    height: 56px;
+    padding-left: 1.5rem;
+    border: none;
+}
+
+.hero-search-input:focus {
+    box-shadow: none;
+}
+
+.tag-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    backdrop-filter: blur(5px);
+    transition: all 0.2s ease;
+}
+
+.tag-badge:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+}

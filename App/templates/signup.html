@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up | Canopy{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4" style="background-color: rgba(254, 250, 224, 0.8);">
+                <h3 class="brand-font fs-2 mb-2 brand-color text-center">JOIN CANOPY</h3>
+                <p class="text-secondary text-center mb-4">Create an account to share your nature photos</p>
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 rounded-3 small">
+                        {% for error in form.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label text-secondary fw-semibold small mb-1">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <span class="helptext d-block small text-muted mt-1">{{ field.help_text|safe }}</span>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger small mt-1 ms-2">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-canopy w-100 rounded-pill py-2 mt-3 brand-font fs-5">SIGN UP</button>
+                </form>
+
+                <p class="text-center text-secondary small mt-4 mb-0">
+                    Already have an account? <a href="{% url 'login' %}" class="brand-color fw-bold text-decoration-none">Log In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
