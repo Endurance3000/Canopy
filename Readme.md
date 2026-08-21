@@ -20,7 +20,7 @@ An elegant, web platform for discovering, sharing, and exploring nature photogra
 * **Backend**: Python 3.14, Django 6.1
 * **Frontend**: HTML5, CSS3, JavaScript (ES6+ AJAX Fetch API)
 * **UI Framework**: Bootstrap 5, Bootstrap Icons
-* **Database**: SQLite3 (Development)
+* **Database**: Postgres (Under Development)
 
 ---
 
