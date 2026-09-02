@@ -86,13 +86,13 @@ Share Nature Photography{% endblock %}
     </div>
 
     <div class="d-flex justify-content-center gap-2 flex-wrap mt-3">
-      <a href="#" class="filter-pill active">All Shots</a>
-      <a href="#" class="filter-pill">Forests</a>
-      <a href="#" class="filter-pill">Mountains</a>
-      <a href="#" class="filter-pill">Wildlife</a>
-      <a href="#" class="filter-pill">Macro & Flowers</a>
-      <a href="#" class="filter-pill">Ocean</a>
-    </div>
+  <a href="{% url 'home' %}" class="filter-pill {% if not selected_category %}active{% endif %}">All Shots</a>
+  {% for cat in categories %}
+    <a href="?category={{ cat.id }}" class="filter-pill {% if selected_category == cat.id|stringformat:'s' %}active{% endif %}">
+      {{ cat.name }}
+    </a>
+  {% endfor %}
+</div>
   </section>
 
   <!-- EDITORIAL COLLECTION BANNER -->
@@ -140,13 +140,14 @@ Share Nature Photography{% endblock %}
             onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.camera_model|default:'N/A'|escapejs }}', '{{ photo.aperture|default:'N/A'|escapejs }}', '{{ photo.shutter_speed|default:'N/A'|escapejs }}', '{{ photo.iso|default:'N/A'|escapejs }}', '{{ photo.focal_length|default:'N/A'|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')"
           />
           <div class="card-body d-flex flex-column justify-content-between p-3">
-            <div>
-              <h5 class="brand-font fs-4 brand-color mb-1">
-                {{ photo.title }}
-              </h5>
-              <p class="text-secondary small mb-2">
-                By {{ photo.user.username }}
-              </p>
+  <div>
+    <div class="d-flex justify-content-between align-items-center mb-1">
+      <h5 class="brand-font fs-4 brand-color mb-0">{{ photo.title }}</h5>
+      {% if photo.category %}
+        <span class="badge bg-success bg-opacity-25 text-success rounded-pill small px-2">{{ photo.category.name }}</span>
+      {% endif %}
+    </div>
+    <p class="text-secondary small mb-2">By {{ photo.user.username }}</p>
 
               <div
                 class="d-flex justify-content-between align-items-center small text-secondary mb-2 opacity-75"

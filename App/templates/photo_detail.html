@@ -18,21 +18,25 @@
           style="max-height: 70vh; object-fit: contain; background: #000"
         />
         <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-              <h2 class="brand-font fs-2 brand-color mb-1">
-                {{ photo.title }}
-              </h2>
-              <p class="text-secondary small mb-0">
-                Shot by {{ photo.user.username }} on {{ photo.uploaded_at|date:"F j, Y" }} {% if photo.location %} · 📍 {{ photo.location }}{% endif %}
-              </p>
-            </div>
-            <a
-              href="{% url 'home' %}"
-              class="btn btn-canopy-outline rounded-pill px-4"
-              >Back to Home</a
-            >
-          </div>
+          <!-- AFTER -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <div class="d-flex align-items-center gap-2">
+      <h2 class="brand-font fs-2 brand-color mb-1">{{ photo.title }}</h2>
+      {% if photo.category %}
+        <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-3 py-2 fs-6">{{ photo.category.name }}</span>
+      {% endif %}
+    </div>
+    <p class="text-secondary small mb-0">
+      Shot by {{ photo.user.username }} on {{ photo.uploaded_at|date:"F j, Y" }} {% if photo.location %} · 📍 {{ photo.location }}{% endif %}
+    </p>
+  </div>
+  <a
+    href="{% url 'home' %}"
+    class="btn btn-canopy-outline rounded-pill px-4"
+    >Back to Home</a
+  >
+</div>
 
           <!-- METRICS AND LIKE BUTTON -->
           <div

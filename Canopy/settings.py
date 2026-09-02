@@ -138,3 +138,5 @@ MAILERS = {
 import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+
+LOGIN_URL = 'login'
