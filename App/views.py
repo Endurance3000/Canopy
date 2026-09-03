@@ -64,8 +64,9 @@ def extract_exif_data(image_file):
 def testfun(request):
     category_id = request.GET.get('category')
     search_query = request.GET.get('q')
+    sort_by = request.GET.get('sort', 'recent')
     
-    photos = Photo.objects.all().order_by('-uploaded_at')
+    photos = Photo.objects.annotate(like_count=Count('likes'))
     
     if category_id:
         photos = photos.filter(category_id=category_id)
@@ -78,6 +79,15 @@ def testfun(request):
         ) | photos.filter(
             camera_model__icontains=search_query
         )
+
+    sort_order = {
+        'views': ['-views', '-uploaded_at'],
+        'likes': ['-like_count', '-uploaded_at'],
+        'recent': ['-uploaded_at'],
+    }
+    if sort_by not in sort_order:
+        sort_by = 'recent'
+    photos = photos.order_by(*sort_order[sort_by])
         
     categories = Category.objects.all()
 
@@ -89,6 +99,7 @@ def testfun(request):
         'photos': photos,
         'categories': categories,
         'selected_category': category_id,
+        'sort_by': sort_by,
         'total_photos_count': total_photos_count,
         'photographers_count': photographers_count,
     })

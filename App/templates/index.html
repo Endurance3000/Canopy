@@ -20,7 +20,10 @@ Share Nature Photography{% endblock %} {% block extra_head %}
           class="carousel-card"
           onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.camera_model|default:'N/A'|escapejs }}', '{{ photo.aperture|default:'N/A'|escapejs }}', '{{ photo.shutter_speed|default:'N/A'|escapejs }}', '{{ photo.iso|default:'N/A'|escapejs }}', '{{ photo.focal_length|default:'N/A'|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')"
         >
-          <span class="glass-tag">{% if photo.category %}{{ photo.category.name|upper }}{% else %}FEATURED{% endif %}</span>
+          <span class="glass-tag"
+            >{% if photo.category %}{{ photo.category.name|upper }}{% else
+            %}FEATURED{% endif %}</span
+          >
           <img src="{{ photo.image.url }}" alt="{{ photo.title }}" />
           <div class="card-overlay">
             <h5 class="brand-font fs-3 mb-1 text-white">{{ photo.title }}</h5>
@@ -70,7 +73,7 @@ Share Nature Photography{% endblock %} {% block extra_head %}
           type="text"
           name="q"
           class="form-control"
-          placeholder="Search by location, camera model, or photo title..."
+          placeholder="Search by photo title..."
         />
         <button
           type="submit"
@@ -118,9 +121,9 @@ Share Nature Photography{% endblock %} {% block extra_head %}
           rivers, and untouched shorelines across the globe.
         </p>
         <a
-          href="#"
+          href="{% url 'explore' %}"
           class="btn btn-canopy rounded-pill px-4 py-2 brand-font fs-5"
-          >Explore Collection (24 Shots)</a
+          >Explore Collection</a
         >
       </div>
     </div>
@@ -158,8 +161,70 @@ Share Nature Photography{% endblock %} {% block extra_head %}
   </div>
 
   <!-- MASONRY GRID WITH DYNAMIC ASPECT RATIOS -->
-  <section class="py-2">
-    <h3 class="brand-font fs-2 brand-color mb-4">RECENT DISCOVERIES</h3>
+  <section id="recent-discoveries" class="py-2">
+    <div
+      class="discoveries-heading d-flex justify-content-between align-items-center mb-4"
+    >
+      <h3 class="brand-font fs-2 brand-color mb-0">RECENT DISCOVERIES</h3>
+      <form
+        method="get"
+        action="#recent-discoveries"
+        class="discoveries-sort d-flex align-items-center gap-2"
+      >
+        {% if request.GET.category %}
+        <input
+          type="hidden"
+          name="category"
+          value="{{ request.GET.category }}"
+        />
+        {% endif %} {% if request.GET.q %}
+        <input type="hidden" name="q" value="{{ request.GET.q }}" />
+        {% endif %}
+        <label for="discoveries-sort-select" class="brand-font">Sort by</label>
+        <div class="discoveries-sort-menu">
+          <button
+            type="button"
+            class="discoveries-sort-trigger"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="discoveries-sort-options"
+          >
+            <span>{% if sort_by == 'views' %}Most viewed{% elif sort_by == 'likes' %}Most liked{% else %}Newest{% endif %}</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </button>
+          <div
+            id="discoveries-sort-options"
+            class="discoveries-sort-options"
+            role="menu"
+          >
+            <button
+              type="submit"
+              name="sort"
+              value="recent"
+              role="menuitem"
+            >
+              Newest
+            </button>
+            <button
+              type="submit"
+              name="sort"
+              value="views"
+              role="menuitem"
+            >
+              Most viewed
+            </button>
+            <button
+              type="submit"
+              name="sort"
+              value="likes"
+              role="menuitem"
+            >
+              Most liked
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
     <div class="masonry-grid">
       {% for photo in photos %}
       <div class="masonry-item">
@@ -509,6 +574,26 @@ Share Nature Photography{% endblock %} {% block extra_head %}
           .catch((error) => console.error("Error toggling like:", error));
       });
     }
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const sortMenu = document.querySelector(".discoveries-sort-menu");
+    const sortTrigger = document.querySelector(".discoveries-sort-trigger");
+
+    if (!sortMenu || !sortTrigger) return;
+
+    sortTrigger.addEventListener("click", function () {
+      const isOpen = sortMenu.classList.toggle("is-open");
+      sortTrigger.setAttribute("aria-expanded", isOpen);
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!sortMenu.contains(event.target)) {
+        sortMenu.classList.remove("is-open");
+        sortTrigger.setAttribute("aria-expanded", "false");
+      }
+    });
   });
 </script>
 {% endblock %}

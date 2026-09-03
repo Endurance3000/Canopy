@@ -27,6 +27,10 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Custom Design System -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
@@ -122,7 +126,6 @@
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              style="width: 42px; height: 42px"
             >
               {% if user.profile.avatar %}
               <img
@@ -184,8 +187,98 @@
 
     <main>{% block content %} {% endblock content %}</main>
 
+    <div class="photographer-directory" id="photographer-directory">
+      <div
+        id="photographer-directory-panel"
+        class="photographer-directory-panel"
+        role="dialog"
+        aria-labelledby="photographer-directory-title"
+        aria-hidden="true"
+      >
+        <div class="photographer-directory-header">
+          <div>
+            <span class="photographer-directory-kicker"
+              >The Canopy community</span
+            >
+            <h2 id="photographer-directory-title" class="brand-font">
+              Photographers
+            </h2>
+          </div>
+          <span class="photographer-directory-count"
+            >{{ registered_users|length }}</span
+          >
+        </div>
+        <div class="photographer-directory-list">
+          {% for photographer in registered_users %}
+          <a
+            href="{% url 'profile' photographer.username %}"
+            class="photographer-directory-user"
+          >
+            {% if photographer.profile.avatar %}
+            <img
+              src="{{ photographer.profile.avatar.url }}"
+              alt="{{ photographer.username }}"
+            />
+            {% else %}
+            <span class="photographer-directory-avatar-fallback"
+              >{{ photographer.username|first|upper }}</span
+            >
+            {% endif %}
+            <span class="photographer-directory-user-name">
+              {{ photographer.username }}{% if photographer == user %} <small>You</small>{% endif %}
+            </span>
+            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+          </a>
+          {% empty %}
+          <p class="photographer-directory-empty">
+            No photographers have joined yet.
+          </p>
+          {% endfor %}
+        </div>
+      </div>
+      <button
+        type="button"
+        class="photographer-directory-toggle"
+        aria-label="Open photographers directory"
+        aria-expanded="false"
+        aria-controls="photographer-directory-panel"
+      >
+        <i class="bi bi-people-fill" aria-hidden="true"></i>
+      </button>
+    </div>
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'js/carousel.js' %}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const directory = document.getElementById("photographer-directory");
+        const panel = directory.querySelector(".photographer-directory-panel");
+        const toggle = directory.querySelector(
+          ".photographer-directory-toggle",
+        );
+
+        toggle.addEventListener("click", function () {
+          const isOpen = directory.classList.toggle("is-open");
+          toggle.setAttribute("aria-expanded", isOpen);
+          toggle.setAttribute(
+            "aria-label",
+            isOpen
+              ? "Close photographers directory"
+              : "Open photographers directory",
+          );
+          panel.setAttribute("aria-hidden", !isOpen);
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!directory.contains(event.target)) {
+            directory.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.setAttribute("aria-label", "Open photographers directory");
+            panel.setAttribute("aria-hidden", "true");
+          }
+        });
+      });
+    </script>
   </body>
 </html>

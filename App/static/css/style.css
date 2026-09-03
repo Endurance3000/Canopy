@@ -30,6 +30,538 @@ body {
   letter-spacing: 0.05em;
 }
 
+/* Photo detail surface */
+.photo-detail-page {
+  position: relative;
+  font-family: "Lora", Georgia, serif;
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.photo-detail-page .brand-font {
+  font-family: "Cormorant Garamond", serif;
+}
+
+.photo-detail-page h2 {
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+}
+
+.photo-detail-description {
+  width: 100%;
+  color: #37402b !important;
+  font-size: 1rem;
+  line-height: 1.8;
+  text-align: justify;
+  text-justify: inter-word;
+  text-align-last: left;
+}
+
+.photo-detail-page .text-secondary,
+.photo-detail-page .text-muted {
+  color: #65705d !important;
+}
+
+.photo-detail-metrics {
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+.photo-detail-specs {
+  font-size: 0.9rem;
+}
+
+.photo-detail-spec-row {
+  min-height: 2.25rem;
+  align-items: center;
+}
+
+.photo-detail-spec-row .fw-bold {
+  color: var(--canopy-dark-moss);
+  font-weight: 600 !important;
+}
+
+.photo-detail-page .btn,
+.photo-detail-page .badge {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+}
+
+.photo-detail-card {
+  background: #fffdf5;
+  border: 1px solid rgba(40, 54, 24, 0.14);
+  border-radius: 18px;
+  box-shadow:
+    0 18px 42px rgba(40, 54, 24, 0.14),
+    0 2px 8px rgba(40, 54, 24, 0.08);
+}
+
+.discoveries-sort label {
+  color: var(--canopy-moss);
+  font-size: 1.05rem;
+}
+
+.discoveries-sort-menu {
+  position: relative;
+  z-index: 20;
+}
+
+#recent-discoveries {
+  scroll-margin-top: 6rem;
+}
+
+.discoveries-sort-trigger {
+  display: flex;
+  min-width: 9.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 0.55rem 0.8rem 0.55rem 0.95rem;
+  color: var(--canopy-dark-moss);
+  background-color: #fffdf5;
+  border: 1px solid rgba(40, 54, 24, 0.22);
+  border-radius: 999px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.discoveries-sort-trigger i {
+  color: var(--canopy-terracotta);
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.discoveries-sort-menu.is-open .discoveries-sort-trigger i {
+  transform: rotate(180deg);
+}
+
+.discoveries-sort-trigger:focus-visible,
+.discoveries-sort-menu.is-open .discoveries-sort-trigger {
+  border-color: var(--canopy-terracotta);
+  outline: 3px solid rgba(188, 108, 37, 0.18);
+}
+
+.discoveries-sort-options {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  z-index: 30;
+  display: grid;
+  min-width: 100%;
+  padding: 0.35rem;
+  background: #fffdf5;
+  border: 1px solid rgba(40, 54, 24, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(40, 54, 24, 0.16);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-0.35rem);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.discoveries-sort-menu.is-open .discoveries-sort-options {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.discoveries-sort-options button {
+  padding: 0.5rem 0.8rem;
+  color: var(--canopy-dark-moss);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.discoveries-sort-options button:hover,
+.discoveries-sort-options button:focus-visible,
+.discoveries-sort-options button[aria-current="true"] {
+  color: #fffdf5;
+  background: var(--canopy-moss);
+  outline: none;
+}
+
+.photographer-directory {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1030;
+}
+
+.photographer-directory-toggle {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  color: #fffdf5;
+  background: var(--canopy-dark-moss);
+  border: 3px solid #fffdf5;
+  border-radius: 50%;
+  box-shadow: 0 8px 22px rgba(40, 54, 24, 0.25);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.photographer-directory-toggle:hover,
+.photographer-directory-toggle:focus-visible {
+  background: var(--canopy-terracotta);
+  outline: 3px solid rgba(188, 108, 37, 0.22);
+  outline-offset: 2px;
+  transform: translateY(-2px);
+}
+
+.photographer-directory-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.85rem);
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: min(30rem, calc(100vh - 7rem));
+  padding: 1.15rem;
+  overflow-y: auto;
+  background: #fffdf5;
+  border: 1px solid rgba(40, 54, 24, 0.16);
+  border-top: 4px solid var(--canopy-terracotta);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(40, 54, 24, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.75rem) scale(0.97);
+  transform-origin: bottom right;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.photographer-directory.is-open .photographer-directory-panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.photographer-directory-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(40, 54, 24, 0.12);
+}
+
+.photographer-directory-kicker {
+  color: var(--canopy-terracotta);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.photographer-directory-header h2 {
+  margin: 0.1rem 0 0;
+  color: var(--canopy-dark-moss);
+  font-size: 1.7rem;
+}
+
+.photographer-directory-count {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  color: #fffdf5;
+  background: var(--canopy-moss);
+  border-radius: 50%;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+}
+
+.photographer-directory-list {
+  display: grid;
+  gap: 0.45rem;
+  padding-top: 0.8rem;
+}
+
+.photographer-directory-user {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem;
+  color: var(--canopy-dark-moss);
+  border-radius: 10px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.photographer-directory-user:hover {
+  background: rgba(96, 108, 56, 0.11);
+  transform: translateX(3px);
+}
+
+.photographer-directory-user img,
+.photographer-directory-avatar-fallback {
+  width: 2.45rem;
+  height: 2.45rem;
+  flex: 0 0 2.45rem;
+  object-fit: cover;
+  border: 2px solid var(--canopy-earth-gold);
+  border-radius: 50%;
+}
+
+.photographer-directory-avatar-fallback {
+  display: grid;
+  place-items: center;
+  color: #fffdf5;
+  background: var(--canopy-terracotta);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.photographer-directory-user-name {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.08rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.photographer-directory-user-name small {
+  margin-left: 0.3rem;
+  color: var(--canopy-terracotta);
+  font-family: "Lora", Georgia, serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.photographer-directory-user > i {
+  color: var(--canopy-terracotta);
+}
+
+.photographer-directory-empty {
+  margin: 0;
+  color: var(--canopy-moss);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 575.98px) {
+  .photographer-directory {
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  .photographer-directory-panel {
+    right: -0.25rem;
+    width: min(20rem, calc(100vw - 2rem));
+  }
+}
+
+.active-community-section {
+  padding: 1.4rem 1.5rem 1.5rem;
+  background: rgba(255, 253, 245, 0.72);
+  border: 1px solid rgba(40, 54, 24, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(40, 54, 24, 0.06);
+}
+
+.active-community-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(40, 54, 24, 0.1);
+}
+
+.active-community-kicker {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--canopy-terracotta);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.active-community-kicker i,
+.active-photographer-info i {
+  color: #6b8e23;
+  font-size: 0.5rem;
+  vertical-align: middle;
+}
+
+.active-community-count {
+  flex-shrink: 0;
+  padding: 0.35rem 0.75rem;
+  color: var(--canopy-moss);
+  background: rgba(96, 108, 56, 0.1);
+  border: 1px solid rgba(96, 108, 56, 0.18);
+  border-radius: 999px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.active-community-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  padding-top: 1rem;
+}
+
+.active-photographer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+  color: var(--canopy-dark-moss);
+  background: rgba(254, 250, 224, 0.58);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.active-photographer:hover {
+  background: #fffdf5;
+  border-color: rgba(188, 108, 37, 0.28);
+  transform: translateY(-2px);
+}
+
+.active-photographer-avatar {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  object-fit: cover;
+  border: 2px solid var(--canopy-earth-gold);
+  border-radius: 50%;
+}
+
+.active-photographer-fallback {
+  display: grid;
+  place-items: center;
+  color: #fffdf5;
+  background: var(--canopy-terracotta);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.active-photographer-info {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.active-photographer-info strong {
+  overflow: hidden;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.08rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.active-photographer-info span {
+  margin-top: 0.2rem;
+  color: var(--canopy-moss);
+  font-size: 0.72rem;
+}
+
+.active-photographer-arrow {
+  color: var(--canopy-terracotta);
+  font-size: 0.9rem;
+}
+
+.active-community-empty {
+  color: var(--canopy-moss);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+}
+
+.photo-detail-image {
+  display: block;
+  max-height: 70vh;
+  object-fit: contain;
+  background: #1d2418;
+  border-bottom: 5px solid var(--canopy-terracotta);
+}
+
+.photo-detail-heading {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(40, 54, 24, 0.12);
+}
+
+.photo-category {
+  color: var(--canopy-dark-moss);
+  background: rgba(96, 108, 56, 0.18);
+  border: 1px solid rgba(96, 108, 56, 0.28);
+}
+
+.photo-location {
+  color: var(--canopy-terracotta);
+}
+
+.photo-detail-metrics,
+.photo-detail-specs {
+  background: #f3f5ee;
+  border: 1px solid rgba(40, 54, 24, 0.1);
+}
+
+.photo-detail-metrics {
+  box-shadow: inset 4px 0 0 var(--canopy-earth-gold);
+}
+
+.photo-detail-specs .border-bottom {
+  border-color: rgba(40, 54, 24, 0.14) !important;
+}
+
+@media (max-width: 575.98px) {
+  .photo-detail-page {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  .photo-detail-card .card-body {
+    padding: 1.25rem !important;
+  }
+
+  .photo-detail-heading {
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .photo-detail-heading .btn {
+    width: 100%;
+  }
+
+  .photo-detail-metrics {
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+}
+
 /* Navigation Bar */
 .canopy-nav {
   background-color: rgba(254, 250, 224, 0.85) !important;
@@ -64,7 +596,7 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  border: 2px solid var(--canopy-cornsilk);
+  border: 3px solid var(--canopy-dark-moss);
   box-shadow: 0 4px 12px rgba(188, 108, 37, 0.3);
   transition:
     transform 0.2s ease,
@@ -637,7 +1169,8 @@ body {
 
 .auth-label {
   color: var(--canopy-dark-moss);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -670,7 +1203,8 @@ body {
   background-color: var(--canopy-cornsilk) !important;
   border: 1.5px solid rgba(40, 54, 24, 0.2) !important;
   padding: 0.75rem 1.25rem 0.75rem 3.2rem !important; /* 3.2rem left padding pushes text past icon */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   font-size: 0.95rem !important;
   color: var(--canopy-dark-moss) !important;
   border-radius: 50rem !important;
