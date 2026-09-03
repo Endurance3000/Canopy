@@ -132,39 +132,57 @@ body {
 .carousel-container {
   display: flex;
   gap: 2rem;
-  overflow-x: scroll !important; /* Force scrollable behavior */
+  overflow-x: scroll !important;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   padding: 2.5rem 1rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  cursor: grab; /* Visual cue for click-and-drag */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  contain: layout paint;
+  will-change: scroll-position;
+}
+
+.carousel-container.is-dragging {
+  scroll-snap-type: none !important;
+  scroll-behavior: auto !important;
+  cursor: grabbing !important;
 }
 
 .carousel-container:active {
-    cursor: grabbing;
+  cursor: grabbing;
 }
 
 .carousel-container::-webkit-scrollbar {
   display: none;
 }
 
-/* CARDS WITH DEPTHT & VIBRANCY */
+/* CARDS WITH DEPTH & VIBRANCY */
 .carousel-card {
-    flex: 0 0 300px !important; /* Fixed basis stops shrinking */
-    height: 400px;
-    scroll-snap-align: center;
-    border-radius: 20px;
-    overflow: hidden;
-    position: relative;
-    background-color: var(--canopy-moss);
-    transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+  flex: 0 0 300px !important;
+  height: 400px;
+  scroll-snap-align: center;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--canopy-moss);
+  will-change: transform, filter, box-shadow;
+  backface-visibility: hidden;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .carousel-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 /* ACTIVE CENTER CARD FOCUS STYLING */
@@ -370,225 +388,316 @@ body {
 
 /* SEARCH & EXIF FILTER BAR */
 .search-container {
-    max-width: 680px;
-    margin: 0 auto;
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 .search-input-group {
-    background: rgba(254, 250, 224, 0.9);
-    border: 1px solid rgba(40, 54, 24, 0.18);
-    border-radius: 50rem;
-    padding: 0.35rem 0.5rem 0.35rem 1.25rem;
-    box-shadow: 0 8px 20px rgba(40, 54, 24, 0.06);
-    transition: box-shadow 0.25 ease, border-color 0.25s ease;
+  background: rgba(254, 250, 224, 0.9);
+  border: 1px solid rgba(40, 54, 24, 0.18);
+  border-radius: 50rem;
+  padding: 0.35rem 0.5rem 0.35rem 1.25rem;
+  box-shadow: 0 8px 20px rgba(40, 54, 24, 0.06);
+  transition:
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .search-input-group:focus-within {
-    border-color: var(--canopy-terracotta);
-    box-shadow: 0 10px 25px rgba(188, 108, 37, 0.18);
+  border-color: var(--canopy-terracotta);
+  box-shadow: 0 10px 25px rgba(188, 108, 37, 0.18);
 }
 
 .search-input-group input {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    outline: none !important;
-    font-size: 0.95rem;
-    color: var(--canopy-dark-moss);
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  font-size: 0.95rem;
+  color: var(--canopy-dark-moss);
 }
 
 /* CURATED EDITORIAL BANNER */
 .curated-banner {
-    position: relative;
-    border-radius: 24px;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--canopy-dark-moss), #1b2410);
-    color: var(--canopy-cornsilk);
-    box-shadow: 0 16px 36px rgba(40, 54, 24, 0.18);
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--canopy-dark-moss), #1b2410);
+  color: var(--canopy-cornsilk);
+  box-shadow: 0 16px 36px rgba(40, 54, 24, 0.18);
 }
 
 .curated-banner-img {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 55%;
-    height: 100%;
-    object-fit: cover;
-    mask-image: linear-gradient(to right, transparent, black 40%);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 40%);
-    opacity: 0.85;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 55%;
+  height: 100%;
+  object-fit: cover;
+  mask-image: linear-gradient(to right, transparent, black 40%);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 40%);
+  opacity: 0.85;
 }
 
 /* TRENDING CREATORS STRIP */
 .creator-card {
-    background: rgba(254, 250, 224, 0.7);
-    border: 1px solid rgba(40, 54, 24, 0.12);
-    border-radius: 18px;
-    padding: 1.25rem;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: rgba(254, 250, 224, 0.7);
+  border: 1px solid rgba(40, 54, 24, 0.12);
+  border-radius: 18px;
+  padding: 1.25rem;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .creator-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(40, 54, 24, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(40, 54, 24, 0.08);
 }
 
 .creator-avatar {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--canopy-terracotta);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--canopy-terracotta);
 }
 
 /* EXIF BADGES ON MASONRY CARDS */
 .exif-badge {
-    font-size: 0.72rem;
-    letter-spacing: 0.03em;
-    background: rgba(40, 54, 24, 0.06);
-    color: var(--canopy-moss);
-    border-radius: 6px;
-    padding: 0.2rem 0.5rem;
-    font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  background: rgba(40, 54, 24, 0.06);
+  color: var(--canopy-moss);
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  font-weight: 600;
 }
 
 /* LIGHTBOX MODAL */
 .modal-content-canopy {
-    background-color: var(--canopy-cornsilk);
-    border-radius: 20px;
-    border: 1px solid rgba(40, 54, 24, 0.15);
+  background-color: var(--canopy-cornsilk);
+  border-radius: 20px;
+  border: 1px solid rgba(40, 54, 24, 0.15);
 }
 
 /* FIXED MASONRY GRID FOR ULTRA-WIDE SCREENS */
 .masonry-grid {
-    column-count: 4;
-    column-gap: 1.5rem;
+  column-count: 4;
+  column-gap: 1.5rem;
 }
 
 .masonry-item {
-    break-inside: avoid;
-    margin-bottom: 1.5rem;
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
 }
 
 /* Maintain aspect ratio while capping oversized images */
 .masonry-card-img {
-    width: 100%;
-    max-height: 480px; /* Caps ultra-tall portrait images */
-    object-fit: cover; /* Keeps image sharp without breaking card boundaries */
-    display: block;
-    cursor: pointer;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
 }
 
 /* RESPONSIVE COLUMN BREAKPOINTS */
 @media (min-width: 1600px) {
-    .masonry-grid {
-        column-count: 4; /* Keeps 4 balanced columns on 1080p+ wide monitors */
-    }
+  .masonry-grid {
+    column-count: 4;
+  }
 }
 
 @media (max-width: 1200px) {
-    .masonry-grid {
-        column-count: 3;
-    }
+  .masonry-grid {
+    column-count: 3;
+  }
 }
 
 @media (max-width: 768px) {
-    .masonry-grid {
-        column-count: 2;
-    }
+  .masonry-grid {
+    column-count: 2;
+  }
 }
 
 @media (max-width: 576px) {
-    .masonry-grid {
-        column-count: 1;
-    }
+  .masonry-grid {
+    column-count: 1;
+  }
 }
 
 /* STRICT ADAPTIVE LIGHTBOX */
 #lightboxModal .modal-dialog {
-    max-width: 90vw !important;
-    width: fit-content !important;
-    margin: 1.75rem auto;
+  max-width: 90vw !important;
+  width: fit-content !important;
+  margin: 1.75rem auto;
 }
 
 #lightboxModal .modal-content {
-    width: fit-content !important;
-    border-radius: 20px;
-    border: none;
-    overflow: hidden;
-    background-color: var(--canopy-cornsilk, #fcfbf7);
+  width: fit-content !important;
+  border-radius: 20px;
+  border: none;
+  overflow: hidden;
+  background-color: var(--canopy-cornsilk, #fcfbf7);
 }
 
 .lightbox-wrapper {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: stretch !important;
-    max-height: 80vh;
-    width: fit-content !important;
-    background-color: var(--canopy-cornsilk, #fcfbf7);
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  max-height: 80vh;
+  width: fit-content !important;
+  background-color: var(--canopy-cornsilk, #fcfbf7);
 }
 
 .lightbox-img-side {
-    background-color: transparent !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto !important;
-    max-height: 80vh;
-    line-height: 0;
-    overflow: hidden;
+  background-color: transparent !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto !important;
+  max-height: 80vh;
+  line-height: 0;
+  overflow: hidden;
 }
 
 #lightboxImg {
-    display: block !important;
-    max-height: 80vh !important;
-    max-width: calc(90vw - 360px) !important;
-    width: auto !important;
-    height: auto !important;
-    object-fit: contain !important;
+  display: block !important;
+  max-height: 80vh !important;
+  max-width: calc(90vw - 360px) !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
 }
 
 .lightbox-info-side {
-    width: 360px !important;
-    flex: 0 0 360px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    box-sizing: border-box !important;
-    padding: 1.25rem !important;
-    background-color: var(--canopy-cornsilk, #fcfbf7);
-    overflow-y: auto;
+  width: 360px !important;
+  flex: 0 0 360px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  box-sizing: border-box !important;
+  padding: 1.25rem !important;
+  background-color: var(--canopy-cornsilk, #fcfbf7);
+  overflow-y: auto;
 }
 
 /* RESPONSIVE FALLBACK */
 @media (max-width: 992px) {
-    #lightboxModal .modal-dialog {
-        max-width: 95vw !important;
-        width: 100% !important;
-    }
-    
-    #lightboxModal .modal-content,
-    .lightbox-wrapper {
-        width: 100% !important;
-        flex-direction: column !important;
-        max-height: none;
-    }
-    
-    .lightbox-img-side {
-        width: 100% !important;
-        height: auto;
-    }
-    
-    #lightboxImg {
-        width: 100% !important;
-        max-width: 100% !important;
-        max-height: 55vh !important;
-    }
-    
-    .lightbox-info-side {
-        width: 100% !important;
-        flex: 1 1 auto !important;
-    }
+  #lightboxModal .modal-dialog {
+    max-width: 95vw !important;
+    width: 100% !important;
+  }
+
+  #lightboxModal .modal-content,
+  .lightbox-wrapper {
+    width: 100% !important;
+    flex-direction: column !important;
+    max-height: none;
+  }
+
+  .lightbox-img-side {
+    width: 100% !important;
+    height: auto;
+  }
+
+  #lightboxImg {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 55vh !important;
+  }
+
+  .lightbox-info-side {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+  }
+}
+
+/* AUTHENTICATION PAGES (LOGIN / SIGNUP) */
+.min-vh-75 {
+  min-height: 75vh;
+}
+
+/* Card Container with Dark Moss Border */
+.auth-card {
+  background-color: #ffffff !important;
+  border: 2px solid var(--canopy-dark-moss) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 32px rgba(40, 54, 24, 0.08) !important;
+}
+
+.auth-subtitle {
+  color: var(--canopy-moss);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+}
+
+.auth-label {
+  color: var(--canopy-dark-moss);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Absolute Positioning for Input Icons */
+.input-icon-wrapper {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+.input-icon {
+  position: absolute !important;
+  left: 1.25rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: var(--canopy-moss) !important;
+  font-size: 1.15rem !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+  line-height: 1 !important;
+}
+
+/* Auth Input Styling with Indented Text for Icon */
+.auth-input,
+.auth-card input[type="text"],
+.auth-card input[type="password"] {
+  background-color: var(--canopy-cornsilk) !important;
+  border: 1.5px solid rgba(40, 54, 24, 0.2) !important;
+  padding: 0.75rem 1.25rem 0.75rem 3.2rem !important; /* 3.2rem left padding pushes text past icon */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 0.95rem !important;
+  color: var(--canopy-dark-moss) !important;
+  border-radius: 50rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.auth-input:focus,
+.auth-card input[type="text"]:focus,
+.auth-card input[type="password"]:focus {
+  background-color: #ffffff !important;
+  border-color: var(--canopy-terracotta) !important;
+  box-shadow: 0 0 0 0.2rem rgba(188, 108, 37, 0.2) !important;
+}
+
+.auth-footer-text {
+  color: var(--canopy-moss);
+  font-size: 0.95rem;
+}
+
+.auth-link {
+  color: var(--canopy-terracotta) !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+
+.auth-link:hover {
+  color: var(--canopy-dark-moss) !important;
+  text-decoration: underline !important;
 }

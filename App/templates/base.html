@@ -15,6 +15,10 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,7 +32,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
   <body>
-<!-- STICKY NAVBAR -->
+    <!-- STICKY NAVBAR -->
     <nav class="navbar navbar-expand-lg canopy-nav sticky-top py-3">
       <div class="container-fluid px-lg-5">
         <a
@@ -51,8 +55,50 @@
         </a>
 
         <div class="d-flex align-items-center me-auto ms-4 gap-4">
-          <a class="nav-link-custom text-uppercase" href="#">EXPLORE</a>
-          <a class="nav-link-custom text-uppercase" href="#">CATEGORIES</a>
+          <!-- EXPLORE ROUTE -->
+          <a class="nav-link-custom text-uppercase" href="{% url 'explore' %}"
+            >EXPLORE</a
+          >
+
+          <!-- CATEGORIES DROPDOWN -->
+          <div class="nav-item dropdown">
+            <a
+              class="nav-link-custom text-uppercase dropdown-toggle"
+              href="#"
+              id="categoriesDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="text-decoration: none"
+            >
+              CATEGORIES
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-canopy"
+              aria-labelledby="categoriesDropdown"
+            >
+              <li>
+                <a class="dropdown-item" href="{% url 'home' %}">All Shots</a>
+              </li>
+              <li><hr class="dropdown-divider opacity-10" /></li>
+              {% for cat in categories %}
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{% url 'home' %}?category={{ cat.id }}"
+                >
+                  {{ cat.name }}
+                </a>
+              </li>
+              {% empty %}
+              <li>
+                <span class="dropdown-item text-muted"
+                  >No categories available</span
+                >
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
 
         <div class="d-flex align-items-center">
@@ -61,7 +107,7 @@
           <a
             href="{% url 'upload' %}"
             class="btn btn-canopy rounded-pill px-3 py-1 me-3 brand-font text-uppercase d-flex align-items-center gap-2"
-            style="font-size: 0.9rem;"
+            style="font-size: 0.9rem"
           >
             <i class="bi bi-cloud-arrow-up-fill fs-6"></i>
             <span>Upload Photo</span>
@@ -78,7 +124,7 @@
               aria-expanded="false"
               style="width: 42px; height: 42px"
             >
-              {% if user.profile.avatar and 'default.png' not in user.profile.avatar.url %}
+              {% if user.profile.avatar %}
               <img
                 src="{{ user.profile.avatar.url }}"
                 alt="{{ user.username }}"

@@ -12,6 +12,7 @@ urlpatterns = [
     path('photo/<int:pk>/', views.photo_detail, name='photo_detail'),
     path('photo/<int:pk>/like/', views.like_photo, name='like_photo'), # Added like route
     path('profile/<str:username>/', views.profile_view, name='profile'),
+    path('explore/', views.explore, name='explore'),
 ]
 
 if settings.DEBUG:

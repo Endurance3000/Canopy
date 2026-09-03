@@ -43,7 +43,7 @@ class Photo(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png', blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)   
     bio = models.TextField(max_length=300, blank=True, null=True, help_text="Share your passion for nature photography...")
     location = models.CharField(max_length=100, blank=True, null=True)
     primary_gear = models.CharField(max_length=150, blank=True, null=True, help_text="e.g. Sony A7IV, 70-200mm f/2.8")

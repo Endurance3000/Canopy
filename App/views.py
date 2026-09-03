@@ -7,6 +7,7 @@ from .models import Photo, Category
 from PIL import Image, ExifTags
 # Add User to this import at the top of views.py
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 def extract_exif_data(image_file):
     """Helper function to extract EXIF metadata using Pillow."""
@@ -233,3 +234,17 @@ def profile_view(request, username):
         'liked_photos': liked_photos,
         'total_likes_received': total_likes_received,
     })
+
+def explore(request):
+    # Fetch top photos ordered by views or likes count
+        trending_photos = Photo.objects.annotate(like_count=Count('likes')).order_by('-like_count', '-views')[:12]
+        
+        # Fetch recent uploads
+        recent_photos = Photo.objects.all().order_by('-uploaded_at')[:8]
+        
+        context = {
+            'trending_photos': trending_photos,
+            'recent_photos': recent_photos,
+            'categories': Category.objects.all(), # Passed for base template navbar rendering
+        }
+        return render(request, 'explore.html', context)
