@@ -189,7 +189,10 @@ Share Nature Photography{% endblock %} {% block extra_head %}
             aria-haspopup="true"
             aria-controls="discoveries-sort-options"
           >
-            <span>{% if sort_by == 'views' %}Most viewed{% elif sort_by == 'likes' %}Most liked{% else %}Newest{% endif %}</span>
+            <span
+              >{% if sort_by == 'views' %}Most viewed{% elif sort_by == 'likes'
+              %}Most liked{% else %}Newest{% endif %}</span
+            >
             <i class="bi bi-chevron-down" aria-hidden="true"></i>
           </button>
           <div
@@ -197,28 +200,13 @@ Share Nature Photography{% endblock %} {% block extra_head %}
             class="discoveries-sort-options"
             role="menu"
           >
-            <button
-              type="submit"
-              name="sort"
-              value="recent"
-              role="menuitem"
-            >
+            <button type="submit" name="sort" value="recent" role="menuitem">
               Newest
             </button>
-            <button
-              type="submit"
-              name="sort"
-              value="views"
-              role="menuitem"
-            >
+            <button type="submit" name="sort" value="views" role="menuitem">
               Most viewed
             </button>
-            <button
-              type="submit"
-              name="sort"
-              value="likes"
-              role="menuitem"
-            >
+            <button type="submit" name="sort" value="likes" role="menuitem">
               Most liked
             </button>
           </div>
