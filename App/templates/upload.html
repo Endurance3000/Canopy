@@ -1,80 +1,186 @@
-{% extends 'base.html' %}
-
-{% block title %}Upload Photo | Canopy{% endblock %}
-
+{% extends 'base.html' %} {% block title %}Upload Photo | Canopy{% endblock %}
 {% block content %}
 <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5" style="background-color: rgba(254, 250, 224, 0.95);">
-                <h3 class="brand-font fs-2 mb-4 brand-color">UPLOAD NEW PHOTO</h3>
-                
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    <!-- FILE & BASIC INFO -->
-                    <div class="mb-3">
-                        <label for="file" class="form-label text-secondary fw-semibold small">Choose Photo File *</label>
-                        <input type="file" name="file" id="file" class="form-control rounded-pill" required>
-                    </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div
+        class="card border-0 shadow-sm rounded-4 p-4 p-md-5"
+        style="background-color: rgba(254, 250, 224, 0.95)"
+      >
+        <h3 class="brand-font fs-2 mb-4 brand-color">UPLOAD NEW PHOTO</h3>
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-7">
-                            <label for="title" class="form-label text-secondary fw-semibold small">Photo Title</label>
-                            <input type="text" name="title" id="title" class="form-control rounded-pill" placeholder="e.g. Foggy Pine Canopy">
-                        </div>
-                        <div class="col-md-5">
-                            <label for="category" class="form-label text-secondary fw-semibold small">Category</label>
-                            <select name="category" id="category" class="form-select rounded-pill">
-                                <option value="">Select Category</option>
-                                {% for cat in categories %}
-                                    <option value="{{ cat.id }}">{{ cat.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label for="location" class="form-label text-secondary fw-semibold small">Location Taken</label>
-                            <input type="text" name="location" id="location" class="form-control rounded-pill" placeholder="e.g. Pokhara, Nepal">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="camera_model" class="form-label text-secondary fw-semibold small">Camera Model</label>
-                            <input type="text" name="camera_model" id="camera_model" class="form-control rounded-pill" placeholder="e.g. Sony A7IV">
-                        </div>
-                    </div>
+          <!-- FILE & BASIC INFO -->
+          <div class="mb-3">
+            <label
+              for="file"
+              class="form-label text-secondary fw-semibold small"
+              >Choose Photo File(s) *</label
+            >
+            <input
+              type="file"
+              name="file"
+              id="file"
+              class="form-control rounded-pill"
+              multiple
+              required
+            />
+          </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label text-secondary fw-semibold small">Story / Description</label>
-                        <textarea name="description" id="description" rows="3" class="form-control rounded-4" placeholder="Tell the community about this shot..."></textarea>
-                    </div>
-
-                    <!-- EXIF TECHNICAL METADATA -->
-                    <h6 class="brand-font fs-5 brand-color mt-4 mb-2">Camera Specs (EXIF)</h6>
-                    <div class="row g-3 mb-4">
-                        <div class="col-6 col-md-3">
-                            <label for="aperture" class="form-label text-secondary fw-semibold small">Aperture</label>
-                            <input type="text" name="aperture" id="aperture" class="form-control rounded-pill" placeholder="e.g. f/2.8">
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <label for="shutter_speed" class="form-label text-secondary fw-semibold small">Shutter Speed</label>
-                            <input type="text" name="shutter_speed" id="shutter_speed" class="form-control rounded-pill" placeholder="e.g. 1/1000s">
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <label for="iso" class="form-label text-secondary fw-semibold small">ISO</label>
-                            <input type="number" name="iso" id="iso" class="form-control rounded-pill" placeholder="e.g. 100">
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <label for="focal_length" class="form-label text-secondary fw-semibold small">Focal Length</label>
-                            <input type="text" name="focal_length" id="focal_length" class="form-control rounded-pill" placeholder="e.g. 50mm">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-canopy rounded-pill px-4 py-2 brand-font fs-5 w-100">UPLOAD TO CANOPY</button>
-                </form>
+          <div class="row g-3 mb-3">
+            <div class="col-md-7">
+              <label
+                for="title"
+                class="form-label text-secondary fw-semibold small"
+                >Photo Title</label
+              >
+              <input
+                type="text"
+                name="title"
+                id="title"
+                class="form-control rounded-pill"
+                placeholder="e.g. Foggy Pine Canopy"
+              />
             </div>
-        </div>
+            <div class="col-md-5">
+              <label
+                for="category"
+                class="form-label text-secondary fw-semibold small"
+                >Category</label
+              >
+              <select
+                name="category"
+                id="category"
+                class="form-select rounded-pill"
+              >
+                <option value="">Select Category</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label
+                for="location"
+                class="form-label text-secondary fw-semibold small"
+                >Location Taken</label
+              >
+              <input
+                type="text"
+                name="location"
+                id="location"
+                class="form-control rounded-pill"
+                placeholder="e.g. Pokhara, Nepal"
+              />
+            </div>
+            <div class="col-md-6">
+              <label
+                for="camera_model"
+                class="form-label text-secondary fw-semibold small"
+                >Camera Model</label
+              >
+              <input
+                type="text"
+                name="camera_model"
+                id="camera_model"
+                class="form-control rounded-pill"
+                placeholder="e.g. Sony A7IV"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label
+              for="description"
+              class="form-label text-secondary fw-semibold small"
+              >Story / Description</label
+            >
+            <textarea
+              name="description"
+              id="description"
+              rows="3"
+              class="form-control rounded-4"
+              placeholder="Tell the community about this shot..."
+            ></textarea>
+          </div>
+
+          <!-- EXIF TECHNICAL METADATA -->
+          <h6 class="brand-font fs-5 brand-color mt-4 mb-2">
+            Camera Specs (EXIF)
+          </h6>
+          <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+              <label
+                for="aperture"
+                class="form-label text-secondary fw-semibold small"
+                >Aperture</label
+              >
+              <input
+                type="text"
+                name="aperture"
+                id="aperture"
+                class="form-control rounded-pill"
+                placeholder="e.g. f/2.8"
+              />
+            </div>
+            <div class="col-6 col-md-3">
+              <label
+                for="shutter_speed"
+                class="form-label text-secondary fw-semibold small"
+                >Shutter Speed</label
+              >
+              <input
+                type="text"
+                name="shutter_speed"
+                id="shutter_speed"
+                class="form-control rounded-pill"
+                placeholder="e.g. 1/1000s"
+              />
+            </div>
+            <div class="col-6 col-md-3">
+              <label
+                for="iso"
+                class="form-label text-secondary fw-semibold small"
+                >ISO</label
+              >
+              <input
+                type="number"
+                name="iso"
+                id="iso"
+                class="form-control rounded-pill"
+                placeholder="e.g. 100"
+              />
+            </div>
+            <div class="col-6 col-md-3">
+              <label
+                for="focal_length"
+                class="form-label text-secondary fw-semibold small"
+                >Focal Length</label
+              >
+              <input
+                type="text"
+                name="focal_length"
+                id="focal_length"
+                class="form-control rounded-pill"
+                placeholder="e.g. 50mm"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-canopy rounded-pill px-4 py-2 brand-font fs-5 w-100"
+          >
+            UPLOAD TO CANOPY
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
