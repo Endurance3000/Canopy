@@ -1,186 +1,543 @@
 {% extends 'base.html' %} {% block title %}Upload Photo | Canopy{% endblock %}
 {% block content %}
-<div class="container py-5">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+  .cnpy-upload {
+    --ink: #283618;
+    --olive: #606c38;
+    --cream: #fefae0;
+    --gold: #dda15e;
+    --rust: #bc6c25;
+  }
+
+  .cnpy-upload .cnpy-card {
+    background-color: var(--cream);
+    border: none;
+    border-radius: 22px;
+    box-shadow:
+      0 0 0 1px rgba(221, 161, 94, .9),
+      0 0 0 6px var(--cream),
+      0 0 0 7px rgba(221, 161, 94, .6),
+      0 20px 45px -18px rgba(40, 54, 24, .45);
+    overflow: hidden;
+  }
+
+  /* ---------- header ---------- */
+  .cnpy-header {
+    position: relative;
+    background: radial-gradient(120% 180% at 15% 0%, #3b4d22 0%, var(--ink) 55%, #1e2812 100%);
+    padding: 2.75rem 2.75rem 2.25rem;
+    overflow: hidden;
+  }
+  .cnpy-header svg.cnpy-branches {
+    position: absolute;
+    right: -20px;
+    bottom: -30px;
+    width: 260px;
+    height: auto;
+    opacity: .16;
+    pointer-events: none;
+  }
+  .cnpy-tag {
+    position: absolute;
+    top: 18px;
+    right: 32px;
+    background: var(--gold);
+    color: var(--ink);
+    padding: .4rem 1rem .4rem 1.6rem;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    border-radius: 3px 10px 10px 3px;
+    transform: rotate(4deg);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .28);
+  }
+  .cnpy-tag::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cream);
+    box-shadow: inset 0 0 0 1px rgba(40, 54, 24, .5);
+  }
+  .cnpy-header h2 { color: var(--cream); margin-bottom: .35rem; }
+  .cnpy-header p { color: rgba(254, 250, 224, .8); max-width: 34ch; margin: 0; }
+
+  /* ---------- body split ---------- */
+  .cnpy-body { padding: 2.5rem; }
+  @media (min-width: 992px) {
+    .cnpy-body { padding: 3rem; }
+    .cnpy-divider {
+      border-left: 1px dashed rgba(96, 108, 56, .35);
+      padding-left: 2.75rem;
+    }
+  }
+
+  /* ---------- frame / dropzone ---------- */
+  .cnpy-frame-label {
+    font-style: italic;
+    font-variant: small-caps;
+    letter-spacing: .02em;
+    color: var(--olive);
+    font-size: .95rem;
+    margin-bottom: .6rem;
+    display: block;
+  }
+  .cnpy-mat {
+    position: relative;
+    border-radius: 16px;
+    border: 2px dashed var(--gold);
+    background: #fff;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .2s ease, background-color .2s ease;
+  }
+  .cnpy-mat.cnpy-dragover {
+    border-color: var(--rust);
+    background: #fffdf6;
+  }
+  .cnpy-file-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .cnpy-mat-inner { width: 100%; padding: 2rem; text-align: center; }
+  .cnpy-icon-circle {
+    width: 60px;
+    height: 60px;
+    background: var(--cream);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: .9rem;
+  }
+  .cnpy-icon-circle i { color: var(--rust); font-size: 1.5rem; }
+  .cnpy-mat-inner h5 { color: var(--ink); margin-bottom: .3rem; }
+  .cnpy-mat-inner p { color: var(--olive); font-size: .88rem; margin-bottom: .2rem; }
+  .cnpy-mat-inner .cnpy-browse { color: var(--rust); font-weight: 600; text-decoration: underline; }
+
+  .cnpy-preview { position: relative; width: 100%; padding: .75rem; animation: cnpy-fade-in .35s ease; }
+  .cnpy-preview img {
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px -8px rgba(40, 54, 24, .4);
+  }
+  .cnpy-clear-btn {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    z-index: 10;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(40, 54, 24, .85);
+    color: var(--cream);
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .cnpy-clear-btn:hover { background: var(--rust); }
+
+  @keyframes cnpy-fade-in {
+    from { opacity: 0; transform: scale(.97); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .cnpy-caption { font-size: .82rem; color: var(--olive); margin-top: .6rem; }
+
+  .cnpy-thumbstrip {
+    display: flex;
+    gap: .5rem;
+    margin-top: .6rem;
+    overflow-x: auto;
+    padding-bottom: .2rem;
+  }
+  .cnpy-thumb {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .cnpy-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cnpy-thumb.active { border-color: var(--rust); }
+
+  /* ---------- placard form fields ---------- */
+  .cnpy-field { margin-bottom: 1.35rem; }
+  .cnpy-field label {
+    display: block;
+    font-style: italic;
+    font-variant: small-caps;
+    color: var(--olive);
+    font-size: .95rem;
+    margin-bottom: .3rem;
+  }
+  .cnpy-underline {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--gold);
+    border-radius: 0;
+    padding: .4rem .1rem;
+    color: var(--ink);
+    transition: border-color .2s ease;
+  }
+  .cnpy-underline:focus {
+    outline: none;
+    border-bottom-color: var(--rust);
+    box-shadow: none;
+    background: transparent;
+  }
+  select.cnpy-underline {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%23bc6c25' stroke-width='1.6' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right .2rem center;
+    padding-right: 1.1rem;
+  }
+  .cnpy-textarea {
+    width: 100%;
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    background: #fff;
+    padding: .7rem .9rem;
+    color: var(--ink);
+    transition: border-color .2s ease;
+  }
+  .cnpy-textarea:focus { outline: none; border-color: var(--rust); box-shadow: none; }
+
+  /* ---------- exif LCD readout ---------- */
+  .cnpy-exif {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+    margin-bottom: 1.6rem;
+  }
+  .cnpy-exif-head {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: var(--gold);
+    font-size: .78rem;
+    letter-spacing: .04em;
+    margin-bottom: .85rem;
+  }
+  .cnpy-exif-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .9rem 1.2rem;
+  }
+  @media (min-width: 576px) {
+    .cnpy-exif-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .cnpy-exif-cell label {
+    display: block;
+    color: rgba(254, 250, 224, .72);
+    font-size: .68rem;
+    letter-spacing: .03em;
+    margin-bottom: .15rem;
+  }
+  .cnpy-exif-cell input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(221, 161, 94, .45);
+    color: var(--cream);
+    font-family: 'Space Mono', monospace;
+    font-size: .95rem;
+    padding: .15rem 0;
+  }
+  .cnpy-exif-cell input:focus { outline: none; border-bottom-color: var(--gold); }
+  .cnpy-exif-cell input::placeholder { color: rgba(254, 250, 224, .32); }
+
+  /* ---------- submit ---------- */
+  .cnpy-submit-btn {
+    width: 100%;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    border-radius: 999px;
+    padding: .95rem 1.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    transition: background-color .2s ease;
+    cursor: pointer;
+  }
+  .cnpy-submit-btn:hover:not(:disabled) { background: var(--rust); }
+  .cnpy-submit-btn:disabled { opacity: .75; cursor: default; }
+
+  .cnpy-spinner {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(254, 250, 224, .4);
+    border-top-color: var(--cream);
+    animation: cnpy-spin .7s linear infinite;
+    display: inline-block;
+  }
+  @keyframes cnpy-spin { to { transform: rotate(360deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cnpy-preview, .cnpy-spinner { animation: none !important; }
+  }
+
+  /* focus visibility floor */
+  .cnpy-upload a:focus-visible,
+  .cnpy-upload button:focus-visible,
+  .cnpy-upload input:focus-visible,
+  .cnpy-upload select:focus-visible,
+  .cnpy-upload textarea:focus-visible {
+    outline: 2px solid var(--rust);
+    outline-offset: 2px;
+  }
+</style>
+
+<div class="container py-5 cnpy-upload">
   <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div
-        class="card border-0 shadow-sm rounded-4 p-4 p-md-5"
-        style="background-color: rgba(254, 250, 224, 0.95)"
-      >
-        <h3 class="brand-font fs-2 mb-4 brand-color">UPLOAD NEW PHOTO</h3>
+    <div class="col-lg-11 col-xl-10">
+      <div class="cnpy-card">
 
-        <form method="post" enctype="multipart/form-data">
+        <div class="cnpy-header">
+          <span class="cnpy-tag">Community Showcase</span>
+          <svg class="cnpy-branches" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 190 C 40 150, 30 110, 70 90 C 100 75, 110 40, 100 10" stroke="#dda15e" stroke-width="2"/>
+            <path d="M70 90 C 90 95, 110 85, 120 60" stroke="#dda15e" stroke-width="2"/>
+            <path d="M50 130 C 65 125, 75 110, 70 90" stroke="#dda15e" stroke-width="2"/>
+            <ellipse cx="118" cy="55" rx="10" ry="5" transform="rotate(-30 118 55)" fill="#dda15e"/>
+            <ellipse cx="98" cy="8" rx="9" ry="4.5" transform="rotate(20 98 8)" fill="#dda15e"/>
+            <ellipse cx="46" cy="128" rx="9" ry="4.5" transform="rotate(-10 46 128)" fill="#dda15e"/>
+          </svg>
+          <h2 class="brand-font display-6 fw-bold">Upload new shot</h2>
+          <p>Share your highest-quality nature photography with the Canopy community.</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="cnpy-body">
           {% csrf_token %}
+          <div class="row g-4 g-lg-5">
 
-          <!-- FILE & BASIC INFO -->
-          <div class="mb-3">
-            <label
-              for="file"
-              class="form-label text-secondary fw-semibold small"
-              >Choose Photo File(s) *</label
-            >
-            <input
-              type="file"
-              name="file"
-              id="file"
-              class="form-control rounded-pill"
-              multiple
-              required
-            />
+            <!-- LEFT: the print -->
+            <div class="col-lg-6">
+              <label class="cnpy-frame-label" for="file">Photo file(s), required</label>
+              <div class="cnpy-mat" id="dropzone">
+                <input
+                  type="file"
+                  name="file"
+                  id="file"
+                  class="cnpy-file-input"
+                  multiple
+                  required
+                  aria-label="Choose photo files to upload"
+                  onchange="cnpyHandleFiles(this)"
+                />
+                <div class="cnpy-mat-inner">
+                  <div id="cnpyPlaceholder">
+                    <div class="cnpy-icon-circle"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+                    <h5 class="brand-font">Drop your photos here</h5>
+                    <p class="mb-2">or <span class="cnpy-browse">browse files</span> from your device</p>
+                    <p class="mb-0" style="opacity:.8;">Supports high-res JPG, PNG, or WEBP</p>
+                  </div>
+                  <div class="cnpy-preview d-none" id="cnpyPreview">
+                    <img id="cnpyMainImg" alt="Preview of selected photo">
+                    <button type="button" class="cnpy-clear-btn" id="cnpyClearBtn" aria-label="Remove selected photos" onclick="cnpyClearFiles(event)">&times;</button>
+                  </div>
+                </div>
+              </div>
+              <div class="cnpy-caption d-none" id="cnpyCaption" aria-live="polite"></div>
+              <div class="cnpy-thumbstrip d-none" id="cnpyThumbs"></div>
+            </div>
+
+            <!-- RIGHT: the placard -->
+            <div class="col-lg-6 cnpy-divider">
+              <div class="cnpy-field">
+                <label for="title">Photo title</label>
+                <input type="text" name="title" id="title" class="cnpy-underline" placeholder="e.g. Foggy Pine Canopy">
+              </div>
+
+              <div class="row">
+                <div class="col-sm-7 cnpy-field">
+                  <label for="category">Category</label>
+                  <select name="category" id="category" class="cnpy-underline">
+                    <option value="">Select category</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-sm-5 cnpy-field">
+                  <label for="location">Location</label>
+                  <input type="text" name="location" id="location" class="cnpy-underline" placeholder="Pokhara, Nepal">
+                </div>
+              </div>
+
+              <div class="cnpy-field">
+                <label for="camera_model">Camera model</label>
+                <input type="text" name="camera_model" id="camera_model" class="cnpy-underline" placeholder="e.g. Sony A7IV">
+              </div>
+
+              <div class="cnpy-field">
+                <label for="description">Story / description</label>
+                <textarea name="description" id="description" rows="3" class="cnpy-textarea" placeholder="Tell the community about the conditions, lighting, or setting of this shot…"></textarea>
+              </div>
+
+              <div class="cnpy-exif">
+                <div class="cnpy-exif-head"><i class="bi bi-sliders"></i><span>Camera data</span></div>
+                <div class="cnpy-exif-grid">
+                  <div class="cnpy-exif-cell">
+                    <label for="aperture">Aperture</label>
+                    <input type="text" name="aperture" id="aperture" placeholder="f/2.8">
+                  </div>
+                  <div class="cnpy-exif-cell">
+                    <label for="shutter_speed">Shutter</label>
+                    <input type="text" name="shutter_speed" id="shutter_speed" placeholder="1/1000s">
+                  </div>
+                  <div class="cnpy-exif-cell">
+                    <label for="iso">ISO</label>
+                    <input type="number" name="iso" id="iso" placeholder="100">
+                  </div>
+                  <div class="cnpy-exif-cell">
+                    <label for="focal_length">Focal length</label>
+                    <input type="text" name="focal_length" id="focal_length" placeholder="50mm">
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="cnpy-submit-btn">
+                <i class="bi bi-cloud-upload-fill"></i>
+                <span>Publish to Canopy</span>
+              </button>
+            </div>
+
           </div>
-
-          <div class="row g-3 mb-3">
-            <div class="col-md-7">
-              <label
-                for="title"
-                class="form-label text-secondary fw-semibold small"
-                >Photo Title</label
-              >
-              <input
-                type="text"
-                name="title"
-                id="title"
-                class="form-control rounded-pill"
-                placeholder="e.g. Foggy Pine Canopy"
-              />
-            </div>
-            <div class="col-md-5">
-              <label
-                for="category"
-                class="form-label text-secondary fw-semibold small"
-                >Category</label
-              >
-              <select
-                name="category"
-                id="category"
-                class="form-select rounded-pill"
-              >
-                <option value="">Select Category</option>
-                {% for cat in categories %}
-                <option value="{{ cat.id }}">{{ cat.name }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-
-          <div class="row g-3 mb-3">
-            <div class="col-md-6">
-              <label
-                for="location"
-                class="form-label text-secondary fw-semibold small"
-                >Location Taken</label
-              >
-              <input
-                type="text"
-                name="location"
-                id="location"
-                class="form-control rounded-pill"
-                placeholder="e.g. Pokhara, Nepal"
-              />
-            </div>
-            <div class="col-md-6">
-              <label
-                for="camera_model"
-                class="form-label text-secondary fw-semibold small"
-                >Camera Model</label
-              >
-              <input
-                type="text"
-                name="camera_model"
-                id="camera_model"
-                class="form-control rounded-pill"
-                placeholder="e.g. Sony A7IV"
-              />
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label
-              for="description"
-              class="form-label text-secondary fw-semibold small"
-              >Story / Description</label
-            >
-            <textarea
-              name="description"
-              id="description"
-              rows="3"
-              class="form-control rounded-4"
-              placeholder="Tell the community about this shot..."
-            ></textarea>
-          </div>
-
-          <!-- EXIF TECHNICAL METADATA -->
-          <h6 class="brand-font fs-5 brand-color mt-4 mb-2">
-            Camera Specs (EXIF)
-          </h6>
-          <div class="row g-3 mb-4">
-            <div class="col-6 col-md-3">
-              <label
-                for="aperture"
-                class="form-label text-secondary fw-semibold small"
-                >Aperture</label
-              >
-              <input
-                type="text"
-                name="aperture"
-                id="aperture"
-                class="form-control rounded-pill"
-                placeholder="e.g. f/2.8"
-              />
-            </div>
-            <div class="col-6 col-md-3">
-              <label
-                for="shutter_speed"
-                class="form-label text-secondary fw-semibold small"
-                >Shutter Speed</label
-              >
-              <input
-                type="text"
-                name="shutter_speed"
-                id="shutter_speed"
-                class="form-control rounded-pill"
-                placeholder="e.g. 1/1000s"
-              />
-            </div>
-            <div class="col-6 col-md-3">
-              <label
-                for="iso"
-                class="form-label text-secondary fw-semibold small"
-                >ISO</label
-              >
-              <input
-                type="number"
-                name="iso"
-                id="iso"
-                class="form-control rounded-pill"
-                placeholder="e.g. 100"
-              />
-            </div>
-            <div class="col-6 col-md-3">
-              <label
-                for="focal_length"
-                class="form-label text-secondary fw-semibold small"
-                >Focal Length</label
-              >
-              <input
-                type="text"
-                name="focal_length"
-                id="focal_length"
-                class="form-control rounded-pill"
-                placeholder="e.g. 50mm"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            class="btn btn-canopy rounded-pill px-4 py-2 brand-font fs-5 w-100"
-          >
-            UPLOAD TO CANOPY
-          </button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  var cnpyObjectUrls = [];
+
+  function cnpyRevokeUrls() {
+    cnpyObjectUrls.forEach(function (u) { URL.revokeObjectURL(u); });
+    cnpyObjectUrls = [];
+  }
+
+  function cnpyHandleFiles(input) {
+    var files = Array.prototype.slice.call(input.files || []);
+    var placeholder = document.getElementById('cnpyPlaceholder');
+    var previewWrap = document.getElementById('cnpyPreview');
+    var mainImg = document.getElementById('cnpyMainImg');
+    var caption = document.getElementById('cnpyCaption');
+    var thumbs = document.getElementById('cnpyThumbs');
+
+    cnpyRevokeUrls();
+    thumbs.innerHTML = '';
+
+    if (files.length === 0) {
+      placeholder.classList.remove('d-none');
+      previewWrap.classList.add('d-none');
+      caption.classList.add('d-none');
+      thumbs.classList.add('d-none');
+      return;
+    }
+
+    var imageFiles = files.filter(function (f) { return f.type.indexOf('image/') === 0; });
+    var firstImage = imageFiles[0] || files[0];
+
+    if (firstImage && firstImage.type.indexOf('image/') === 0) {
+      var url = URL.createObjectURL(firstImage);
+      cnpyObjectUrls.push(url);
+      mainImg.src = url;
+    }
+
+    placeholder.classList.add('d-none');
+    previewWrap.classList.remove('d-none');
+
+    caption.textContent = files.length === 1
+      ? firstImage.name
+      : files.length + ' photos selected — showing "' + firstImage.name + '"';
+    caption.classList.remove('d-none');
+
+    if (files.length > 1) {
+      files.forEach(function (f) {
+        if (f.type.indexOf('image/') !== 0) return;
+        var turl = URL.createObjectURL(f);
+        cnpyObjectUrls.push(turl);
+        var thumb = document.createElement('button');
+        thumb.type = 'button';
+        thumb.className = 'cnpy-thumb' + (f === firstImage ? ' active' : '');
+        var img = document.createElement('img');
+        img.src = turl;
+        img.alt = f.name;
+        thumb.appendChild(img);
+        thumb.addEventListener('click', function () {
+          mainImg.src = turl;
+          var allThumbs = thumbs.querySelectorAll('.cnpy-thumb');
+          for (var i = 0; i < allThumbs.length; i++) { allThumbs[i].classList.remove('active'); }
+          thumb.classList.add('active');
+        });
+        thumbs.appendChild(thumb);
+      });
+      thumbs.classList.remove('d-none');
+    } else {
+      thumbs.classList.add('d-none');
+    }
+  }
+
+  function cnpyClearFiles(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var input = document.getElementById('file');
+    input.value = '';
+    cnpyHandleFiles(input);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var input = document.getElementById('file');
+    var dropzone = document.getElementById('dropzone');
+
+    ['dragenter', 'dragover'].forEach(function (evt) {
+      input.addEventListener(evt, function () { dropzone.classList.add('cnpy-dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(function (evt) {
+      input.addEventListener(evt, function () { dropzone.classList.remove('cnpy-dragover'); });
+    });
+
+    var form = dropzone.closest('form');
+    form.addEventListener('submit', function () {
+      var btn = form.querySelector('.cnpy-submit-btn');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="cnpy-spinner" aria-hidden="true"></span><span>Publishing…</span>';
+      }
+    });
+  });
+</script>
 {% endblock %}

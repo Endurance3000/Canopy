@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
   <body>
-    <!-- STICKY NAVBAR -->
+<!-- STICKY NAVBAR -->
     <nav class="navbar navbar-expand-lg canopy-nav sticky-top py-3">
       <div class="container-fluid px-lg-5">
         <a
@@ -57,48 +57,69 @@
 
         <div class="d-flex align-items-center">
           {% if user.is_authenticated %}
+          <!-- UPLOAD PHOTO BUTTON ON NAVBAR -->
+          <a
+            href="{% url 'upload' %}"
+            class="btn btn-canopy rounded-pill px-3 py-1 me-3 brand-font text-uppercase d-flex align-items-center gap-2"
+            style="font-size: 0.9rem;"
+          >
+            <i class="bi bi-cloud-arrow-up-fill fs-6"></i>
+            <span>Upload Photo</span>
+          </a>
+
           <span class="brand-font fs-5 text-uppercase me-3 brand-color"
             >HI, {{ user.username }}</span
           >
           <div class="dropdown">
-  <button
-    class="avatar-btn p-0 border-0 rounded-circle overflow-hidden"
-    type="button"
-    data-bs-toggle="dropdown"
-    aria-expanded="false"
-    style="width: 42px; height: 42px"
-  >
-    {% if user.profile.avatar and 'default.png' not in user.profile.avatar.url %}
-    <img
-      src="{{ user.profile.avatar.url }}"
-      alt="{{ user.username }}"
-      style="width: 100%; height: 100%; object-fit: cover"
-    />
-    {% else %}
-    <div
-      class="w-100 h-100 d-flex align-items-center justify-content-center brand-font text-white"
-      style="background-color: #b85b14; font-size: 1.2rem; font-weight: 600;"
-    >
-      {{ user.username|first|upper }}
-    </div>
-    {% endif %}
-  </button>
-  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-canopy">
-    <li>
-      <a class="dropdown-item" href="{% url 'upload' %}">Upload Photo</a>
-    </li>
-    <li>
-      <a class="dropdown-item" href="{% url 'profile' user.username %}">My Profile</a>
-    </li>
-    <li><hr class="dropdown-divider opacity-10" /></li>
-    <li>
-      <form action="{% url 'logout' %}" method="POST" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="dropdown-item text-danger">Log Out</button>
-      </form>
-    </li>
-  </ul>
-</div>
+            <button
+              class="avatar-btn p-0 border-0 rounded-circle overflow-hidden"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="width: 42px; height: 42px"
+            >
+              {% if user.profile.avatar and 'default.png' not in user.profile.avatar.url %}
+              <img
+                src="{{ user.profile.avatar.url }}"
+                alt="{{ user.username }}"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+              {% else %}
+              <div
+                class="w-100 h-100 d-flex align-items-center justify-content-center brand-font text-white"
+                style="
+                  background-color: #b85b14;
+                  font-size: 1.2rem;
+                  font-weight: 600;
+                "
+              >
+                {{ user.username|first|upper }}
+              </div>
+              {% endif %}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-canopy">
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{% url 'profile' user.username %}"
+                  >My Profile</a
+                >
+              </li>
+              <li><hr class="dropdown-divider opacity-10" /></li>
+              <li>
+                <form
+                  action="{% url 'logout' %}"
+                  method="POST"
+                  class="d-inline"
+                >
+                  {% csrf_token %}
+                  <button type="submit" class="dropdown-item text-danger">
+                    Log Out
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </div>
           {% else %}
           <a
             class="nav-link-custom text-uppercase me-3"
