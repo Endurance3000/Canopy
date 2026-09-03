@@ -4,7 +4,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Categories"  # Fixes the admin spelling
 
     def __str__(self):
         return self.name

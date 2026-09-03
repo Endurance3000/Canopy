@@ -1,12 +1,11 @@
 {% extends "base.html" %} {% load static %} {% block title %}Canopy | Discover &
-Share Nature Photography{% endblock %} 
-
-{% block extra_head %}
+Share Nature Photography{% endblock %} {% block extra_head %}
 <!-- Prevents favicon.ico 404 error -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
-{% endblock %}
-
-{% block content %}
+<link
+  rel="icon"
+  href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>"
+/>
+{% endblock %} {% block content %}
 <div class="container-fluid py-2 px-lg-5">
   <!-- HERO SECTION WITH SPOTLIGHT CAROUSEL -->
   <section class="hero-section-wrapper">
@@ -21,10 +20,7 @@ Share Nature Photography{% endblock %}
           class="carousel-card"
           onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.camera_model|default:'N/A'|escapejs }}', '{{ photo.aperture|default:'N/A'|escapejs }}', '{{ photo.shutter_speed|default:'N/A'|escapejs }}', '{{ photo.iso|default:'N/A'|escapejs }}', '{{ photo.focal_length|default:'N/A'|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')"
         >
-          <span class="glass-tag"
-            >{% if photo.category %}{{ photo.category.name|upper }}{% else
-            %}FEATURED{% endif %}</span
-          >
+          <span class="glass-tag">{% if photo.category %}{{ photo.category.name|upper }}{% else %}FEATURED{% endif %}</span>
           <img src="{{ photo.image.url }}" alt="{{ photo.title }}" />
           <div class="card-overlay">
             <h5 class="brand-font fs-3 mb-1 text-white">{{ photo.title }}</h5>
@@ -86,13 +82,20 @@ Share Nature Photography{% endblock %}
     </div>
 
     <div class="d-flex justify-content-center gap-2 flex-wrap mt-3">
-  <a href="{% url 'home' %}" class="filter-pill {% if not selected_category %}active{% endif %}">All Shots</a>
-  {% for cat in categories %}
-    <a href="?category={{ cat.id }}" class="filter-pill {% if selected_category == cat.id|stringformat:'s' %}active{% endif %}">
-      {{ cat.name }}
-    </a>
-  {% endfor %}
-</div>
+      <a
+        href="{% url 'home' %}"
+        class="filter-pill {% if not selected_category %}active{% endif %}"
+        >All Shots</a
+      >
+      {% for cat in categories %}
+      <a
+        href="?category={{ cat.id }}"
+        class="filter-pill {% if selected_category == cat.id|stringformat:'s' %}active{% endif %}"
+      >
+        {{ cat.name }}
+      </a>
+      {% endfor %}
+    </div>
   </section>
 
   <!-- EDITORIAL COLLECTION BANNER -->
@@ -123,6 +126,37 @@ Share Nature Photography{% endblock %}
     </div>
   </section>
 
+  <!-- COMMUNITY STATS BANNER -->
+  <div
+    class="row text-center my-5 py-4 rounded-4 shadow-sm"
+    style="background-color: rgba(85, 107, 47, 0.15)"
+  >
+    <div
+      class="col-md-4 mb-3 mb-md-0 border-end border-secondary border-opacity-25"
+    >
+      <h3 class="brand-font fs-1 brand-color mb-0">{{ total_photos_count }}</h3>
+      <p class="text-uppercase small text-secondary fw-bold mb-0">
+        Captures Shared
+      </p>
+    </div>
+    <div
+      class="col-md-4 mb-3 mb-md-0 border-end border-secondary border-opacity-25"
+    >
+      <h3 class="brand-font fs-1 brand-color mb-0">
+        {{ photographers_count }}
+      </h3>
+      <p class="text-uppercase small text-secondary fw-bold mb-0">
+        Active Photographers
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h3 class="brand-font fs-1 brand-color mb-0">{{ categories.count }}</h3>
+      <p class="text-uppercase small text-secondary fw-bold mb-0">
+        Nature Categories
+      </p>
+    </div>
+  </div>
+
   <!-- MASONRY GRID WITH DYNAMIC ASPECT RATIOS -->
   <section class="py-2">
     <h3 class="brand-font fs-2 brand-color mb-4">RECENT DISCOVERIES</h3>
@@ -140,14 +174,23 @@ Share Nature Photography{% endblock %}
             onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.camera_model|default:'N/A'|escapejs }}', '{{ photo.aperture|default:'N/A'|escapejs }}', '{{ photo.shutter_speed|default:'N/A'|escapejs }}', '{{ photo.iso|default:'N/A'|escapejs }}', '{{ photo.focal_length|default:'N/A'|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')"
           />
           <div class="card-body d-flex flex-column justify-content-between p-3">
-  <div>
-    <div class="d-flex justify-content-between align-items-center mb-1">
-      <h5 class="brand-font fs-4 brand-color mb-0">{{ photo.title }}</h5>
-      {% if photo.category %}
-        <span class="badge bg-success bg-opacity-25 text-success rounded-pill small px-2">{{ photo.category.name }}</span>
-      {% endif %}
-    </div>
-    <p class="text-secondary small mb-2">By {{ photo.user.username }}</p>
+            <div>
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <h5 class="brand-font fs-4 brand-color mb-0">
+                  {{ photo.title }}
+                </h5>
+                {% if photo.category %}
+                <span
+                  class="badge bg-success bg-opacity-25 text-success rounded-pill small px-2"
+                  >{{ photo.category.name }}</span
+                >
+                {% endif %}
+              </div>
+              <p class="text-secondary small mb-2">
+                By {{ photo.user.username }}
+              </p>
 
               <div
                 class="d-flex justify-content-between align-items-center small text-secondary mb-2 opacity-75"
@@ -205,19 +248,33 @@ Share Nature Photography{% endblock %}
       <div class="modal-body p-0">
         <div class="lightbox-wrapper">
           <div class="lightbox-img-side">
-            <img id="lightboxImg" src="" alt="Modal View">
+            <img id="lightboxImg" src="" alt="Modal View" />
           </div>
           <div class="lightbox-info-side">
             <div>
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="badge bg-success bg-opacity-25 text-success">Verified Original</span>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <span class="badge bg-success bg-opacity-25 text-success"
+                  >Verified Original</span
+                >
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
               </div>
-              <h3 id="lightboxTitle" class="brand-font fs-2 brand-color mb-1"></h3>
+              <h3
+                id="lightboxTitle"
+                class="brand-font fs-2 brand-color mb-1"
+              ></h3>
               <p id="lightboxAuthor" class="text-secondary small mb-1"></p>
               <p id="lightboxLocation" class="text-muted small mb-2"></p>
 
-              <div class="d-flex gap-4 text-muted small my-2 pb-2 border-bottom">
+              <div
+                class="d-flex gap-4 text-muted small my-2 pb-2 border-bottom"
+              >
                 <span class="d-flex align-items-center gap-1">
                   <i class="bi bi-eye"></i>
                   <strong id="lightboxViews">0</strong> views
@@ -230,7 +287,9 @@ Share Nature Photography{% endblock %}
 
               <p id="lightboxDescription" class="small text-dark mb-3"></p>
 
-              <h6 class="brand-font fs-5 brand-color mb-2">Camera Specs (EXIF)</h6>
+              <h6 class="brand-font fs-5 brand-color mb-2">
+                Camera Specs (EXIF)
+              </h6>
               <div class="bg-light p-3 rounded-3 mb-4 small">
                 <div class="d-flex justify-content-between py-1 border-bottom">
                   <span class="text-muted">Camera</span>
@@ -267,7 +326,8 @@ Share Nature Photography{% endblock %}
                 href="#"
                 download
                 class="btn btn-canopy w-100 rounded-pill py-2 brand-font fs-5"
-              >Download</a>
+                >Download</a
+              >
             </div>
           </div>
         </div>
@@ -279,43 +339,61 @@ Share Nature Photography{% endblock %}
 <script>
   let currentLightboxPhotoId = null;
 
-function openLightbox(id, url, title, author, location, camera, aperture, shutter, iso, focal, description, views, likes) {
+  function openLightbox(
+    id,
+    url,
+    title,
+    author,
+    location,
+    camera,
+    aperture,
+    shutter,
+    iso,
+    focal,
+    description,
+    views,
+    likes,
+  ) {
     currentLightboxPhotoId = id;
-    
-    const imgElem = document.getElementById('lightboxImg');
-    const infoPanel = document.querySelector('.lightbox-info-side');
+
+    const imgElem = document.getElementById("lightboxImg");
+    const infoPanel = document.querySelector(".lightbox-info-side");
 
     // Clear previous explicit height settings
-    if (infoPanel) infoPanel.style.height = 'auto';
+    if (infoPanel) infoPanel.style.height = "auto";
 
-    imgElem.onload = function() {
-        // Sync side panel height to rendered image height desktop mode
-        if (window.innerWidth > 992 && infoPanel && imgElem.clientHeight > 0) {
-            infoPanel.style.height = imgElem.clientHeight + 'px';
-        }
+    imgElem.onload = function () {
+      // Sync side panel height to rendered image height desktop mode
+      if (window.innerWidth > 992 && infoPanel && imgElem.clientHeight > 0) {
+        infoPanel.style.height = imgElem.clientHeight + "px";
+      }
     };
 
     imgElem.src = url;
 
-    document.getElementById('lightboxTitle').innerText = title;
-    document.getElementById('lightboxAuthor').innerText = 'Shot by ' + author;
-    document.getElementById('lightboxLocation').innerText = location ? '📍 ' + location : '';
-    document.getElementById('lightboxDescription').innerText = description;
-    
-    document.getElementById('lightboxViews').innerText = views;
-    document.getElementById('lightboxLikes').innerText = likes;
+    document.getElementById("lightboxTitle").innerText = title;
+    document.getElementById("lightboxAuthor").innerText = "Shot by " + author;
+    document.getElementById("lightboxLocation").innerText = location
+      ? "📍 " + location
+      : "";
+    document.getElementById("lightboxDescription").innerText = description;
 
-    document.getElementById('lightboxCamera').innerText = camera;
-    document.getElementById('lightboxAperture').innerText = aperture;
-    document.getElementById('lightboxShutter').innerText = shutter;
-    document.getElementById('lightboxISO').innerText = iso;
-    document.getElementById('lightboxFocal').innerText = focal;
-    
-    document.getElementById('lightboxDownloadBtn').href = url;
-    
-    var lightbox = new bootstrap.Modal(document.getElementById('lightboxModal'));
+    document.getElementById("lightboxViews").innerText = views;
+    document.getElementById("lightboxLikes").innerText = likes;
+
+    document.getElementById("lightboxCamera").innerText = camera;
+    document.getElementById("lightboxAperture").innerText = aperture;
+    document.getElementById("lightboxShutter").innerText = shutter;
+    document.getElementById("lightboxISO").innerText = iso;
+    document.getElementById("lightboxFocal").innerText = focal;
+
+    document.getElementById("lightboxDownloadBtn").href = url;
+
+    var lightbox = new bootstrap.Modal(
+      document.getElementById("lightboxModal"),
+    );
     lightbox.show();
-}
+  }
 
   document.addEventListener("DOMContentLoaded", function () {
     // Scroll Controls for Hero Carousel
@@ -338,7 +416,8 @@ function openLightbox(id, url, title, author, location, camera, aperture, shutte
       if (progressBar) {
         container.addEventListener("scroll", () => {
           const maxScroll = container.scrollWidth - container.clientWidth;
-          const percentage = maxScroll > 0 ? (container.scrollLeft / maxScroll) * 100 : 0;
+          const percentage =
+            maxScroll > 0 ? (container.scrollLeft / maxScroll) * 100 : 0;
           progressBar.style.transform = `translateX(${percentage}%)`;
         });
       }
@@ -392,9 +471,14 @@ function openLightbox(id, url, title, author, location, camera, aperture, shutte
         })
           .then((response) => response.json())
           .then((data) => {
-            document.getElementById("lightboxLikes").innerText = data.likes_count;
-            const cardCount = document.getElementById(`card-like-count-${currentLightboxPhotoId}`);
-            const cardIcon = document.querySelector(`.card-like-icon-${currentLightboxPhotoId}`);
+            document.getElementById("lightboxLikes").innerText =
+              data.likes_count;
+            const cardCount = document.getElementById(
+              `card-like-count-${currentLightboxPhotoId}`,
+            );
+            const cardIcon = document.querySelector(
+              `.card-like-icon-${currentLightboxPhotoId}`,
+            );
             if (cardCount) cardCount.innerText = data.likes_count;
 
             const lbIcon = document.getElementById("lightboxLikeIcon");

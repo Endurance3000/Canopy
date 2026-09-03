@@ -79,12 +79,18 @@ def testfun(request):
         )
         
     categories = Category.objects.all()
+
+    # Dynamic metrics to enrich the homepage
+    total_photos_count = Photo.objects.count()
+    photographers_count = User.objects.filter(photos__isnull=False).distinct().count()
+
     return render(request, 'index.html', {
         'photos': photos,
         'categories': categories,
-        'selected_category': category_id
+        'selected_category': category_id,
+        'total_photos_count': total_photos_count,
+        'photographers_count': photographers_count,
     })
-
 
 def signup_view(request):
     if request.method == 'POST':
