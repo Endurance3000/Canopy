@@ -54,7 +54,7 @@ Whether you're browsing a spotlighted collection, filtering by category, or insp
 
 ### 🧱 Masonry Discovery Grid
 
-- A clean, responsive card layout displaying photography thumbnails, live view counters, EXIF-availability badges, and direct action triggers — built for effortless browsing.
+- A clean, responsive card layout displaying photography thumbnails, live view counters, EXIF-availability badges, and direct action triggers built for effortless browsing.
 
 ### 🔍 Interactive Lightbox Modal
 
