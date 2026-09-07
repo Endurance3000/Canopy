@@ -1,11 +1,11 @@
-{% extends "base.html" %}
-{% block title %}Explore | Canopy{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Explore | Canopy{% endblock %} {%
+block content %}
 <div class="container py-4">
   <div class="text-center my-4">
     <h1 class="brand-font display-4 brand-color fw-bold">EXPLORE CANOPY</h1>
-    <p class="text-secondary fs-5">Discover trending captures and recent community additions.</p>
+    <p class="text-secondary fs-5">
+      Discover trending captures and recent community additions.
+    </p>
   </div>
 
   <!-- TRENDING SECTION -->
@@ -13,41 +13,59 @@
     <h3 class="brand-font fs-2 brand-color mb-3">TRENDING CAPTURES</h3>
     <div class="row g-4">
       {% for photo in trending_photos %}
-        <div class="col-md-4 col-lg-3">
-          <div class="card border-0 rounded-4 overflow-hidden shadow-sm h-100" style="background-color: rgba(254, 250, 224, 0.9);">
-            <img 
-              src="{{ photo.image.url }}" 
-              class="card-img-top" 
-              alt="{{ photo.title }}"
-              style="height: 240px; object-fit: cover; cursor: pointer;"
-              onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')"
-            >
-            <div class="card-body p-3 d-flex flex-column justify-content-between">
-              <div>
-                <h5 class="brand-font fs-4 brand-color mb-0">{{ photo.title }}</h5>
-                <p class="text-secondary small mb-2">By {{ photo.user.username }}</p>
+      <div class="col-md-4 col-lg-3">
+        <div
+          class="card border-0 rounded-4 overflow-hidden shadow-sm h-100"
+          style="background-color: rgba(254, 250, 224, 0.9)"
+        >
+          <img
+            src="{{ photo.image.url }}"
+            class="card-img-top"
+            alt="{{ photo.title }}"
+            style="height: 240px; object-fit: cover; cursor: pointer"
+            onclick="openLightbox(`{{ photo.id }}`, `{{ photo.image.url }}`, `{{ photo.title|escapejs }}`, `{{ photo.user.username|escapejs }}`, `{{ photo.location|default:''|escapejs }}`, `{{ photo.description|default:''|escapejs }}`, `{{ photo.views }}`, `{{ photo.likes.count }}`)"
+          />
+          <div class="card-body p-3 d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="brand-font fs-4 brand-color mb-0">
+                {{ photo.title }}
+              </h5>
+              <p class="text-secondary small mb-2">
+                By {{ photo.user.username }}
+              </p>
+            </div>
+            <div class="pt-2 border-top">
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div class="d-flex gap-2 w-100">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-canopy-outline rounded-pill flex-grow-1 py-1 fw-bold"
+                    onclick="openLightbox(`{{ photo.id }}`, `{{ photo.image.url }}`, `{{ photo.title|escapejs }}`, `{{ photo.user.username|escapejs }}`, `{{ photo.location|default:''|escapejs }}`, `{{ photo.description|default:''|escapejs }}`, `{{ photo.views }}`, `{{ photo.likes.count }}`)"
+                  >
+                    <i class="bi bi-eye-fill me-1"></i> Quick View
+                  </button>
+                  <a
+                    href="{% url 'photo_detail' photo.id %}"
+                    class="btn btn-sm btn-canopy rounded-pill px-3 py-1"
+                    >View Page</a
+                  >
+                </div>
               </div>
-              <div class="pt-2 border-top">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <div class="d-flex gap-2 w-100">
-                    <button 
-                      type="button" 
-                      class="btn btn-sm btn-canopy-outline rounded-pill flex-grow-1 py-1 fw-bold"
-                      onclick="openLightbox('{{ photo.id }}', '{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.user.username|escapejs }}', '{{ photo.location|default:''|escapejs }}', '{{ photo.description|default:''|escapejs }}', '{{ photo.views }}', '{{ photo.likes.count }}')"
-                    >
-                      <i class="bi bi-eye-fill me-1"></i> Quick View
-                    </button>
-                    <a href="{% url 'photo_detail' photo.id %}" class="btn btn-sm btn-canopy rounded-pill px-3 py-1">View Page</a>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center small text-muted">
-                  <span><i class="bi bi-eye"></i> {{ photo.views }}</span>
-                  <span><i class="bi bi-heart-fill brand-color"></i> {{ photo.likes.count }}</span>
-                </div>
+              <div
+                class="d-flex justify-content-between align-items-center small text-muted"
+              >
+                <span><i class="bi bi-eye"></i> {{ photo.views }}</span>
+                <span
+                  ><i class="bi bi-heart-fill brand-color"></i> {{
+                  photo.likes.count }}</span
+                >
               </div>
             </div>
           </div>
         </div>
+      </div>
       {% endfor %}
     </div>
   </section>
@@ -65,13 +83,23 @@
           <div class="lightbox-info-side">
             <div>
               <div class="d-flex justify-content-end mb-2">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
               </div>
-              <h3 id="lightboxTitle" class="brand-font fs-2 brand-color mb-1"></h3>
+              <h3
+                id="lightboxTitle"
+                class="brand-font fs-2 brand-color mb-1"
+              ></h3>
               <p id="lightboxAuthor" class="text-secondary small mb-1"></p>
               <p id="lightboxLocation" class="text-muted small mb-2"></p>
 
-              <div class="d-flex gap-4 text-muted small my-2 pb-2 border-bottom">
+              <div
+                class="d-flex gap-4 text-muted small my-2 pb-2 border-bottom"
+              >
                 <span class="d-flex align-items-center gap-1">
                   <i class="bi bi-eye"></i>
                   <strong id="lightboxViews">0</strong> views
@@ -84,12 +112,21 @@
 
               <p id="lightboxDescription" class="small text-dark mt-3 mb-4"></p>
             </div>
-            
+
             <div class="d-flex flex-column gap-2">
-              <a id="lightboxDetailBtn" href="#" class="btn btn-canopy rounded-pill py-2 brand-font fs-5 text-center">
+              <a
+                id="lightboxDetailBtn"
+                href="#"
+                class="btn btn-canopy rounded-pill py-2 brand-font fs-5 text-center"
+              >
                 <i class="bi bi-info-circle me-1"></i> Advanced View
               </a>
-              <a id="lightboxDownloadBtn" href="#" download class="btn btn-canopy-outline rounded-pill py-2 brand-font fs-5 text-center">
+              <a
+                id="lightboxDownloadBtn"
+                href="#"
+                download
+                class="btn btn-canopy-outline rounded-pill py-2 brand-font fs-5 text-center"
+              >
                 Download Image
               </a>
             </div>
@@ -101,7 +138,16 @@
 </div>
 
 <script>
-  function openLightbox(id, url, title, author, location, description, views, likes) {
+  function openLightbox(
+    id,
+    url,
+    title,
+    author,
+    location,
+    description,
+    views,
+    likes,
+  ) {
     const imgElem = document.getElementById("lightboxImg");
     const infoPanel = document.querySelector(".lightbox-info-side");
 
@@ -116,16 +162,21 @@
     imgElem.src = url;
     document.getElementById("lightboxTitle").innerText = title;
     document.getElementById("lightboxAuthor").innerText = "Shot by " + author;
-    document.getElementById("lightboxLocation").innerText = location ? "📍 " + location : "";
-    document.getElementById("lightboxDescription").innerText = description || "No description provided.";
+    document.getElementById("lightboxLocation").innerText = location
+      ? "📍 " + location
+      : "";
+    document.getElementById("lightboxDescription").innerText =
+      description || "No description provided.";
     document.getElementById("lightboxViews").innerText = views;
     document.getElementById("lightboxLikes").innerText = likes;
-    
+
     // Set dynamic URLs for Download and Full Detail view page
     document.getElementById("lightboxDownloadBtn").href = url;
     document.getElementById("lightboxDetailBtn").href = "/photo/" + id + "/";
 
-    var lightbox = new bootstrap.Modal(document.getElementById("lightboxModal"));
+    var lightbox = new bootstrap.Modal(
+      document.getElementById("lightboxModal"),
+    );
     lightbox.show();
   }
 </script>

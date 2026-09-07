@@ -183,6 +183,15 @@ textarea {
   width: 27%;
 }
 
+.dashboard #content-related {
+  width: 32%;
+  min-width: 300px;
+}
+
+.dashboard #content-main {
+  width: 65%;
+}
+
 .module,
 .inline-group,
 #changelist-filter {
@@ -542,5 +551,258 @@ select:focus,
   #content-main,
   #content-related {
     width: 100%;
+  }
+}
+
+/* Focused login surface: Django loads login.css after the shared admin CSS. */
+.login {
+  min-height: 100vh;
+  background: #f4f0d7 !important;
+}
+
+.login #container {
+  width: min(420px, calc(100% - 32px)) !important;
+  min-width: 0 !important;
+  margin: 72px auto !important;
+  overflow: hidden;
+  background: var(--canopy-admin-paper) !important;
+  border: 1px solid rgba(40, 54, 24, 0.18) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 22px 55px rgba(40, 54, 24, 0.16);
+}
+
+.login #header {
+  display: block;
+  min-height: 0;
+  padding: 26px 30px 24px !important;
+  background: var(--canopy-admin-moss) !important;
+  border-bottom: 4px solid var(--canopy-admin-terracotta);
+  text-align: left;
+}
+
+.login #branding {
+  display: block;
+  min-width: 0;
+}
+
+.login #content,
+.login #content-main {
+  width: auto !important;
+  max-width: none;
+  margin: 0;
+  padding: 28px 30px 30px !important;
+}
+
+.login #login-form {
+  margin: 0;
+  width: 100%;
+}
+
+.login #login-form .form-row {
+  width: 100%;
+  padding: 0 0 18px;
+  background: transparent;
+  border: 0;
+}
+
+.login #login-form .form-row label {
+  display: block;
+  margin: 0 0 7px;
+  color: var(--canopy-admin-moss);
+  font-family: "Lora", Georgia, serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.login #login-form .form-row input[type="text"],
+.login #login-form .form-row input[type="password"] {
+  width: 100% !important;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid #9ca77b;
+  border-radius: 7px;
+  color: var(--canopy-admin-moss);
+  font-family: "Lora", Georgia, serif;
+  font-size: 16px;
+  box-shadow: inset 0 1px 2px rgba(40, 54, 24, 0.05);
+}
+
+.login #login-form .form-row input[type="text"]:focus,
+.login #login-form .form-row input[type="password"]:focus {
+  border-color: var(--canopy-admin-terracotta);
+  box-shadow: 0 0 0 3px rgba(188, 108, 37, 0.18);
+  outline: none;
+}
+
+.login #login-form .errorlist {
+  margin: 0 0 6px;
+  padding: 0;
+  color: #8a3f26;
+  font-size: 12px;
+  list-style: none;
+}
+
+.login .errornote {
+  margin: 0 0 20px;
+  padding: 11px 13px;
+  border: 1px solid #d6a58d;
+  border-radius: 7px;
+  background: #f8e7df;
+  color: #7d321d;
+  font-size: 13px;
+}
+
+.login .password-reset-link {
+  margin: -2px 0 22px;
+  text-align: left;
+}
+
+.login .password-reset-link a {
+  color: var(--canopy-admin-terracotta);
+  font-size: 12px;
+}
+
+.login .submit-row {
+  margin: 0;
+  padding: 4px 0 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.login .submit-row input[type="submit"] {
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  background: var(--canopy-admin-terracotta);
+  border: 1px solid var(--canopy-admin-terracotta);
+  border-radius: 7px;
+  color: var(--canopy-admin-cream);
+  font-family: "Lora", Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login .submit-row input[type="submit"]:hover,
+.login .submit-row input[type="submit"]:focus {
+  background: var(--canopy-admin-olive);
+  border-color: var(--canopy-admin-olive);
+  box-shadow: 0 0 0 3px rgba(96, 108, 56, 0.18);
+  outline: none;
+}
+
+/* Dashboard activity panel readability. */
+#recent-actions-module {
+  background: var(--canopy-admin-paper) !important;
+}
+
+#recent-actions-module h2 {
+  padding: 16px 18px;
+  background: var(--canopy-admin-olive) !important;
+  color: var(--canopy-admin-cream) !important;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#recent-actions-module h3 {
+  margin: 0;
+  padding: 16px 18px 8px;
+  background: var(--canopy-admin-paper) !important;
+  color: var(--canopy-admin-moss) !important;
+  font-family: "Lora", Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#recent-actions-module .actionlist {
+  margin: 0;
+  padding: 0 18px 14px;
+  list-style: none;
+}
+
+#recent-actions-module .actionlist li {
+  position: relative;
+  min-height: 52px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 12px 0 12px 22px !important;
+  border-bottom: 1px solid rgba(40, 54, 24, 0.12);
+  color: var(--canopy-admin-moss) !important;
+  font-family: "Lora", Georgia, serif;
+  font-size: 13px;
+  line-height: 1.45;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+#recent-actions-module .actionlist li:last-child {
+  border-bottom: 0;
+}
+
+#recent-actions-module .actionlist li a,
+#recent-actions-module .actionlist li a:link,
+#recent-actions-module .actionlist li a:visited {
+  color: var(--canopy-admin-terracotta) !important;
+  font-weight: 600;
+}
+
+#recent-actions-module .actionlist li a:hover,
+#recent-actions-module .actionlist li a:focus {
+  color: var(--canopy-admin-moss) !important;
+}
+
+#recent-actions-module .actionlist .mini,
+#recent-actions-module .actionlist .quiet {
+  display: block;
+  margin-top: 6px;
+  color: #536038 !important;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+#recent-actions-module .actionlist li::before {
+  position: absolute;
+  top: 13px;
+  left: 0;
+}
+
+#recent-actions-module .actionlist .addlink::before {
+  color: #4f9d28;
+}
+
+#recent-actions-module .actionlist .changelink::before {
+  color: #b88a00;
+}
+
+#recent-actions-module .actionlist .deletelink::before {
+  color: #d44343;
+}
+
+@media (max-width: 480px) {
+  .login #container {
+    margin: 28px auto !important;
+  }
+
+  .login #header {
+    padding: 22px 22px 20px !important;
+  }
+
+  .login #content,
+  .login #content-main {
+    padding: 24px 22px 26px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard #content-main,
+  .dashboard #content-related {
+    width: 100%;
+    min-width: 0;
   }
 }

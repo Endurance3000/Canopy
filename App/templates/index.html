@@ -21,7 +21,8 @@ Share Nature Photography{% endblock %} {% block extra_head %}
           onclick="openLightbox(`{{ photo.id }}`, `{{ photo.image.url }}`, `{{ photo.title|escapejs }}`, `{{ photo.user.username|escapejs }}`, `{{ photo.location|default:''|escapejs }}`, `{{ photo.camera_model|default:'N/A'|escapejs }}`, `{{ photo.aperture|default:'N/A'|escapejs }}`, `{{ photo.shutter_speed|default:'N/A'|escapejs }}`, `{{ photo.iso|default:'N/A'|escapejs }}`, `{{ photo.focal_length|default:'N/A'|escapejs }}`, `{{ photo.description|default:''|escapejs }}`, `{{ photo.views }}`, `{{ photo.likes.count }}`)"
         >
           <span class="glass-tag"
-            >{% if photo.category %}{{ photo.category.name|upper }}{% else %}FEATURED{% endif %}</span
+            >{% if photo.category %}{{ photo.category.name|upper }}{% else
+            %}FEATURED{% endif %}</span
           >
           <img src="{{ photo.image.url }}" alt="{{ photo.title }}" />
           <div class="card-overlay">
