@@ -36,7 +36,7 @@
 
 ## 🌟 Overview
 
-**Canopy** is an elegant web platform for discovering, sharing, and exploring nature photography. Built with **Django** and designed around a dark forest aesthetic, Canopy elevates each photo submission with EXIF camera specifications, photographer attribution, and real-time community engagement — all wrapped in a calm, nature-inspired interface built for crisp showcase previews.
+**Canopy** is an elegant web platform for discovering, sharing, and exploring nature photography. Built with **Django** and designed around a dark forest aesthetic, Canopy elevates each photo submission with EXIF camera specifications, photographer attribution, and real-time community engagement all wrapped in a calm, nature-inspired interface built for crisp showcase previews.
 
 Whether you're browsing a spotlighted collection, filtering by category, or inspecting the exact aperture and shutter speed behind a shot, Canopy is designed to feel like flipping through a curated nature magazine rather than scrolling a generic gallery.
 
@@ -46,7 +46,7 @@ Whether you're browsing a spotlighted collection, filtering by category, or insp
 
 ### 🎨 Earthy, Cohesive UI
 
-- A custom forest-inspired color palette — warm cream (`#FEFAE0`) paired with deep pine tones (`#2D3A2B`) — combined with Bootstrap Icons for a consistent, calming visual identity.
+- A custom forest-inspired color palette, warm cream (`#FEFAE0`) paired with deep pine tones (`#2D3A2B`) combined with Bootstrap Icons for a consistent, calming visual identity.
 
 ### 🖼️ Interactive Spotlight Hero Carousel
 
@@ -62,7 +62,7 @@ Whether you're browsing a spotlighted collection, filtering by category, or insp
 
 ### ❤️ Asynchronous Like Engine
 
-- Dynamic, AJAX-powered like toggling across grid cards, detail pages, and lightboxes — with instant feedback and zero page reloads or layout jumps.
+- Dynamic, AJAX-powered like toggling across grid cards, detail pages, and lightboxes with instant feedback and zero page reloads or layout jumps.
 
 ### 📷 EXIF Metadata Engine
 
