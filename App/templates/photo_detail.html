@@ -15,7 +15,7 @@ Canopy{% endblock %} {% block content %}
           >
             <div>
               <div class="d-flex align-items-center gap-2 flex-wrap">
-                <h2 class="brand-font fs-2 brand-color mb-1">
+                Shot by {{ photo.user.username }} on {{ photo.uploaded_at|date:"F j, Y" }}{% if photo.location %}
                   {{ photo.title }}
                 </h2>
                 {% if photo.category %}
@@ -25,8 +25,7 @@ Canopy{% endblock %} {% block content %}
                 {% endif %}
               </div>
               <p class="text-secondary small mb-0">
-                Shot by {{ photo.user.username }} on {{
-                photo.uploaded_at|date:"F j, Y" }}{% if photo.location %}
+                {% with uploaded_date=photo.uploaded_at|date:"F j, Y" %} Shot by {{ photo.user.username }} on {{ uploaded_date }}{% endwith %}{% if photo.location %}
                 <span class="photo-location"
                   >&#8226; &#128205; {{ photo.location }}</span
                 >{% endif %}
