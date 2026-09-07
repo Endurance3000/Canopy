@@ -5,7 +5,7 @@
 ### An editorial-grade nature photography showcase platform.
 
 <p align="center">
-  Discover, share, and explore nature photography — presented with the craft of a print magazine.
+  Discover, share, and explore nature photography presented with the craft of a print magazine.
 </p>
 
 <p align="center">
